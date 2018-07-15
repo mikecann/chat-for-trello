@@ -43,8 +43,7 @@ export class ChatWindowBody extends React.Component<ChatPopupBodyProps, {}> {
                         action={a} />)
                 }
             </ul>
-            <div style={{ float: "left", clear: "both", height: 0 }}
-                ref={el => this.messagesEnd = el} />
+            <div style={{ float: "left", clear: "both" }} ref={el => this.messagesEnd = el} />
         </div>;
     }
 }

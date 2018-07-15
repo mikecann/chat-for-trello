@@ -34,10 +34,9 @@ export class ChatWindowFooter extends React.Component<ChatPopupBodyProps, {}> {
             <textarea 
                 style={{
                     width: "100%",
-                    height: 64,
-                    maxHeight: 64,
                     resize: "none",
-                    border: "none",
+                    border: "0",
+                    boxShadow: "none",
                     background: "none",
                 }}
                 placeholder="Enter message"

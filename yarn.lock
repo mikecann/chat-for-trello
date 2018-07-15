@@ -4229,6 +4229,10 @@ rc@^1.1.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
+re-resizable@4.7.1:
+  version "4.7.1"
+  resolved "https://registry.yarnpkg.com/re-resizable/-/re-resizable-4.7.1.tgz#3eca5bb94a6059d14311786cfd2d430bc9f7fba0"
+
 react-dom@^16.3.2:
   version "16.3.2"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.3.2.tgz#cb90f107e09536d683d84ed5d4888e9640e0e4df"
@@ -4238,9 +4242,24 @@ react-dom@^16.3.2:
     object-assign "^4.1.1"
     prop-types "^15.6.0"
 
+react-draggable@3.0.5:
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/react-draggable/-/react-draggable-3.0.5.tgz#c031e0ed4313531f9409d6cd84c8ebcec0ddfe2d"
+  dependencies:
+    classnames "^2.2.5"
+    prop-types "^15.6.0"
+
 react-lifecycles-compat@^3.0.2:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
+
+react-rnd@^8.0.2:
+  version "8.0.2"
+  resolved "https://registry.yarnpkg.com/react-rnd/-/react-rnd-8.0.2.tgz#8fd8bc3aa0639a7eef4f0fd3b20f94c96eeb385c"
+  dependencies:
+    re-resizable "4.7.1"
+    react-draggable "3.0.5"
+    tslib "1.9.3"
 
 react-router-dom@^4.2.2:
   version "4.2.2"
@@ -5160,6 +5179,10 @@ trim-right@^1.0.1:
 ts-debounce@^0.3.2:
   version "0.3.2"
   resolved "https://registry.yarnpkg.com/ts-debounce/-/ts-debounce-0.3.2.tgz#20f8e1659a6d52905d74f77a1145d8662547bfad"
+
+tslib@1.9.3:
+  version "1.9.3"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.9.3.tgz#d7e4dd79245d85428c4d7e4822a79917954ca286"
 
 tty-browserify@0.0.0:
   version "0.0.0"
