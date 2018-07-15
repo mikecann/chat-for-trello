@@ -22,7 +22,7 @@ export class ChatService {
 		const list = await this.getOrCreateChatList(boardShortCode);
 		const card = await this.findOrCreateChatCard(list);
 		return card;
-    }	
+	}	
 
 	async getOrCreateChatList(boardId: string): Promise<TrelloList> {
 		var options = {

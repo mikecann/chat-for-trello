@@ -21,6 +21,8 @@ type Delta = {
     id: string
 }
 
+type ActionDelta = Delta & { type: string | "commentCard" };
+
 export class WebSocketInterceptHandler {
     constructor(
         private logger: ILogger,
@@ -53,7 +55,7 @@ export class WebSocketInterceptHandler {
             return;
 
         if (msg.notify.typeName == "Action")
-            msg.notify.deltas.forEach(d => this.applyActionDelta(d, board));
+            msg.notify.deltas.forEach(d => this.applyActionDelta(d as ActionDelta, board));
 
         if (msg.notify.idBoard != board.id)
             return;
@@ -85,8 +87,20 @@ export class WebSocketInterceptHandler {
         // card ? setProps(card, delta) : board.cards.push(delta as TrelloCard);
     }
 
-    private applyActionDelta(delta: Delta, board: BoardStore) {
-        //this.logger.debug("WebSocketInterceptHandler applying action delta", delta);
+    private applyActionDelta(delta: ActionDelta, board: BoardStore) {
+
+        this.logger.debug("WebSocketInterceptHandler detected delta change", delta);
+
+        if (delta.type != "commentCard")
+            return;
+
+        const comment = delta as TrelloAction<TrelloComment>;
+        const isChatComment = comment.data.card.id == board.chat.card.id;
+
+        if (!isChatComment)
+            return;
+
+        board.chat.history.push(comment.data);
         //var action = board.actions.find(a => a.id == delta.id);
         //action ? setProps(action, delta) : board.actions.push(delta as TrelloAction<any>);
     }

@@ -9,6 +9,7 @@ import { BoardButton } from './BoardButton';
 import { PageStore } from '../stores/PageStore';
 import { BoardSettingsStore } from '../stores/BoardSettingsStore';
 import { BoardStore } from '../stores/BoardStore';
+import { ChatWindow } from './ChatWindow';
 
 interface Props {
     board: BoardStore,
@@ -60,12 +61,13 @@ export class Board extends React.Component<Props, any>
         // console.log("BOARD UPDATED ", this.props.board.name)
         this.settings.isEnabled ? this.addSemanticUIStyles() : this.removeSemanticUIStyles();
         return <React.Fragment>
-            <Portal 
+            <Portal
                 queryEl={this.props.element}
                 querySelector=".board-header-btns"
                 mountId="chat-for-trello-board-btn">
-                    <BoardButton model={this.settings} />
-                </Portal>
+                <BoardButton model={this.settings} />
+            </Portal>
+            <ChatWindow store={this.props.board.chat} />
         </React.Fragment>
     }
 }

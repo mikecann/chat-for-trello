@@ -7,6 +7,7 @@ import { observable, runInAction } from "mobx";
 export class ChatStore
 {
     @observable card: TrelloCard;
+    @observable history: TrelloComment[] = [];
 
     constructor(
         private logger: ILogger,
@@ -19,5 +20,9 @@ export class ChatStore
         const card = await this.chatService.getOrCreateChatCard(this.board.id);
         this.logger.debug("ChatStore", "Card loaded", card);
         runInAction(() => this.card = card);
+
+        const comments = await this.chatService.getChatHistory(this.card.id);
+        this.logger.debug("ChatStore", "History loaded", comments);
+        runInAction(() => this.history = comments);
     }
 }

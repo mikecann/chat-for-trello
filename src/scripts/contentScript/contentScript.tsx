@@ -73,7 +73,7 @@ async function init() {
   // If we disconnect, then lets just refresh the page to cleanup
   backgroundController.onDisconnect.add(() => {
     logger.debug("Background disconnected, reloading now..")
-    window.location.reload();
+    //window.location.reload();
   });
 
   // Start renering
