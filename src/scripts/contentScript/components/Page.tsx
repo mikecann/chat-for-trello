@@ -3,14 +3,14 @@ import { DOMWatcher } from '../helpers/DOMWatcher';
 import { ILogger } from 'mikeysee-helpers';
 import { Board } from './Board';
 import { observer, inject } from 'mobx-react';
-import { PageModel } from '../models/PageModel';
-import { ModelsFactory } from '../helpers/ModelsFactory';
+import { StoresFactory } from '../helpers/StoresFactory';
 import { AppSettingsModel } from '../../models/AppSettingsModel';
+import { PageStore } from '../stores/PageStore';
 
 interface Props {
-    factory?: ModelsFactory,
+    factory?: StoresFactory,
     logger?: ILogger,
-    model: PageModel,
+    model: PageStore,
     element: HTMLElement,
     appSettings?: AppSettingsModel
 }
@@ -64,8 +64,6 @@ export class Page extends React.Component<Props, {}>
     }
 
     private async setBoard(board: BoardDetails) {
-        // var model = await this.props.factory!.createBoard(board.id, this.props.model);
-        // await model.init();
         this.props.model.loadBoard(board.id);
     }
     

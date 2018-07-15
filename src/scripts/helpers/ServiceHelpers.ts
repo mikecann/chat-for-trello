@@ -30,9 +30,9 @@
 
     }
 
-    post(url: string, data: any): Promise<boolean> {
+    post<T>(url: string, data: any): Promise<T> {
         
-        return new Promise<boolean>((resolve, reject) => {
+        return new Promise<T>((resolve, reject) => {
 
             var token = this.getCookie("token");
             if (token == null)
@@ -43,7 +43,12 @@
             xmlHttp.onreadystatechange = () => {
                 if (xmlHttp.readyState == 4) {
                     if (xmlHttp.status == 200) {
-                        resolve(true);
+                        try {
+                            var packet: T = JSON.parse(xmlHttp.responseText);
+                            resolve(packet);
+                        } catch (e) {
+                            reject("Couldnt parse JSON response: "+e);
+                        }
                     } else {
                         reject(xmlHttp.responseText);
                     }
@@ -59,9 +64,9 @@
 
     }
 
-    put(url: string, data: any): Promise<boolean> {
+    put<T>(url: string, data: any): Promise<T> {
         
-        return new Promise<boolean>((resolve, reject) => {
+        return new Promise<T>((resolve, reject) => {
 
             var token = this.getCookie("token");
             if (token == null)
@@ -72,7 +77,12 @@
             xmlHttp.onreadystatechange = () => {
                 if (xmlHttp.readyState == 4) {
                     if (xmlHttp.status == 200) {
-                        resolve(true);
+                        try {
+                            var packet: T = JSON.parse(xmlHttp.responseText);
+                            resolve(packet);
+                        } catch (e) {
+                            reject("Couldnt parse JSON response: "+e);
+                        }
                     } else {
                         reject(xmlHttp.responseText);
                     }

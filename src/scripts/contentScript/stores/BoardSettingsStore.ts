@@ -10,7 +10,7 @@ const defaultPersistanceValues: BoardSettingsModelPersistanceData = {
     isEnabled: false
 }
 
-export class BoardSettingsModel {
+export class BoardSettingsStore {
 
     @observable isEnabled = false;
     private autorunDisposer: IReactionDisposer;

@@ -21,8 +21,7 @@
         "run_at": "document_start",
         "matches": [ "https://trello.com/*", "http://trello.com/*" ],
         "js": [
-          "libs/websocket-wrapper/injector.js",
-          "libs/webrequest-wrapper/injector.js"
+          "libs/websocket-wrapper/injector.js"
         ]
       },
       {
@@ -37,7 +36,6 @@
     ],
     "web_accessible_resources": [
       "libs/websocket-wrapper/content.js",
-      "libs/webrequest-wrapper/content.js",
       "libs/semantic-ui/semantic.content-script.css",
       "libs/semantic-ui/icons.svg",
       "libs/semantic-ui/icons.eot",

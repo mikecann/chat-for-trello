@@ -21,6 +21,7 @@ declare interface TrelloCard {
     idList: string;
     closed: boolean;
     pos: number;
+    dateLastActivity: string;
     // a bunch of other stuff here but cant be bothered to list
 }
 

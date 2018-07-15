@@ -18,7 +18,7 @@ function logWebSocketTraffic(obj) {
     /* This method is called from the message event itself, as well as the the raw
      data. To accommodate both use cases we have to conditionally log */     
     var message = obj.data ? obj.data : obj;
-    var event = new CustomEvent("wrapped-WebSocket-message", {detail: message});
+    var event = new CustomEvent("chat-for-trello-wrapped-WebSocket-message", {detail: message});
     window.dispatchEvent(event);
 }
 

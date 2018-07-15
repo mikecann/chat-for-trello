@@ -19,4 +19,14 @@ export class BoardsService {
         var resp = await this.helpers.get<T[]>(`https://trello.com/1/boards/${boardId}/lists`, data);
         return resp;
     }   
+
+    async createList(boardId:string, name:string) : Promise<TrelloList> {
+        var url = "https://trello.com/1/boards/" + boardId + "/lists";
+        this.logger.debug(this, "Adding list to board..", boardId, name);
+        const resp = await this.helpers.post<TrelloList>(url, {
+            name
+        });    
+        
+        return resp;
+    }   
 }

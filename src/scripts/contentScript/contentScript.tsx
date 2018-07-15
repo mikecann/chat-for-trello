@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { ContentScriptToBackgroundController } from './controllers/ContentScriptToBackgroundController';
 import { configure } from 'mobx';
-import { ModelsFactory } from './helpers/ModelsFactory';
+import { StoresFactory } from './helpers/StoresFactory';
 import { CardsService } from './services/CardsService';
 import { ServiceHelpers } from '../helpers/ServiceHelpers';
 import { GetBatchService } from './services/GetBatchService';
@@ -21,6 +21,7 @@ import { ListsService } from './services/ListsService';
 import { WebSocketInterceptHandler } from '../controllers/WebSocketInterceptHandler';
 import { WebRequestInterceptorHandler } from '../controllers/WebRequestInterceptorHandler';
 import { ResetController } from '../controllers/ResetController';
+import { ChatService } from './services/ChatService';
 
 async function init() {
 
@@ -50,14 +51,15 @@ async function init() {
   const batchService = new GetBatchService(logger, serviceHelpers);
   const cardService = new CardsService(logger, serviceHelpers, batchService);
   const boardsService = new BoardsService(logger, serviceHelpers);
+  const listsService = new ListsService(logger, serviceHelpers);
+  const chatService = new ChatService(logger, serviceHelpers, boardsService, listsService, cardService);
   const persistance = new ChromePersistanceService(chrome.storage.sync, logger);
   const resetController = new ResetController();
   const appSettings = new AppSettingsModel(persistance, logger, resetController);
-  const factory = new ModelsFactory(cardService, persistance, appSettings, logger, boardsService);
+  const factory = new StoresFactory(cardService, persistance, appSettings, logger, boardsService, chatService);
   const page = factory.createPage();
   const websocket = new WebSocketInterceptHandler(logger, page);
   const auth = new ContentScriptAuthModel(persistance);
-  const webRequest = new WebRequestInterceptorHandler(logger, page);
 
   // Init
   logger.filter = createAppSettingsLogFilter(appSettings.settings);
@@ -66,7 +68,6 @@ async function init() {
   await auth.init();
   backgroundController.connect();
   websocket.listen();
-  webRequest.listen();
   resetController.listenForReset();
 
   // If we disconnect, then lets just refresh the page to cleanup

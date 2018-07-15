@@ -1,7 +1,8 @@
 import { ILogger } from "mikeysee-helpers";
-import { PageModel } from "../contentScript/models/PageModel";
 import { setProps, waitForMilliseconds } from "../helpers/utils";
 import { action } from "mobx";
+import { PageStore } from "../contentScript/stores/PageStore";
+import { BoardStore } from "../contentScript/stores/BoardStore";
 
 type NotifyMessage = {
     idModelChannel: string,
@@ -23,11 +24,11 @@ type Delta = {
 export class WebSocketInterceptHandler {
     constructor(
         private logger: ILogger,
-        private page: PageModel
+        private page: PageStore
     ) { }
 
     listen() {
-        window.addEventListener("wrapped-WebSocket-message", this.onWebSocketMessage);
+        window.addEventListener("chat-for-trello-wrapped-WebSocket-message", this.onWebSocketMessage);
     }
 
     private onWebSocketMessage = async (e: CustomEvent) => {
@@ -67,27 +68,27 @@ export class WebSocketInterceptHandler {
             msg.notify.deltas.forEach(d => this.applyCardDelta(d, board));
     }
 
-    private applyBoardDelta(delta: Delta, board: TrelloBoard) {
+    private applyBoardDelta(delta: Delta, board: BoardStore) {
         this.logger.debug("WebSocketInterceptHandler applying board delta", delta);
         setProps(board, delta);
     }
 
-    private applyListDelta(delta: Delta, board: TrelloBoard) {
-        this.logger.debug("WebSocketInterceptHandler applying list delta", delta);
-        var list = board.lists.find(l => l.id == delta.id);
-        list ? setProps(list, delta) : board.lists.push(delta as TrelloList);
+    private applyListDelta(delta: Delta, board: BoardStore) {
+        //this.logger.debug("WebSocketInterceptHandler applying list delta", delta);
+        // var list = board.lists.find(l => l.id == delta.id);
+        // list ? setProps(list, delta) : board.lists.push(delta as TrelloList);
     }
 
-    private applyCardDelta(delta: Delta, board: TrelloBoard) {
-        this.logger.debug("WebSocketInterceptHandler applying card delta", delta);
-        var card = board.cards.find(c => c.id == delta.id);
-        card ? setProps(card, delta) : board.cards.push(delta as TrelloCard);
+    private applyCardDelta(delta: Delta, board: BoardStore) {
+        //this.logger.debug("WebSocketInterceptHandler applying card delta", delta);
+        // var card = board.cards.find(c => c.id == delta.id);
+        // card ? setProps(card, delta) : board.cards.push(delta as TrelloCard);
     }
 
-    private applyActionDelta(delta: Delta, board: TrelloBoard) {
-        this.logger.debug("WebSocketInterceptHandler applying action delta", delta);
-        var action = board.actions.find(a => a.id == delta.id);
-        action ? setProps(action, delta) : board.actions.push(delta as TrelloAction<any>);
+    private applyActionDelta(delta: Delta, board: BoardStore) {
+        //this.logger.debug("WebSocketInterceptHandler applying action delta", delta);
+        //var action = board.actions.find(a => a.id == delta.id);
+        //action ? setProps(action, delta) : board.actions.push(delta as TrelloAction<any>);
     }
 }
 

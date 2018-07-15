@@ -3,7 +3,7 @@ import { IPersistanceService } from '../services/IPersistanceService';
 import { ILogger } from 'mikeysee-helpers';
 import { Persister } from '../helpers/Persister';
 import { LogLevel } from '../helpers/Logging';
-import { ListSettings, defaultListSettings } from '../models/ListSettingsModel';
+import { ListSettings, defaultListSettings } from './ListSettingsModel';
 import { ResetController } from '../controllers/ResetController';
 import { setProps, isDevMode } from '../helpers/utils';
 

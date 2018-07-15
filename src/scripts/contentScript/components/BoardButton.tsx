@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import { BoardSettingsModel } from '../models/BoardSettingsModel';
 import { LogoIcon } from './LogoIcon';
+import { BoardSettingsStore } from '../stores/BoardSettingsStore';
 
 interface Props {
-    model: BoardSettingsModel
+    model: BoardSettingsStore
 }
 
 @observer

@@ -11,15 +11,11 @@ export class CardsService {
         private batchService: GetBatchService
     ) {}
 
-    getComments(id: string): Promise<TrelloComment[]> {
+    getComments(id: string, options: any): Promise<TrelloComment[]> {
 
         this.logger.debug("CardService Loading card comments for card", id);
 
-        var url = constructURL("https://trello.com/1/cards/" + id + "/actions", { 
-            filter: "commentCard",
-            fields: "data",
-            memberCreator: false
-        });
+        var url = constructURL("https://trello.com/1/cards/" + id + "/actions", options);
 
         return this.batchService.batch<TrelloComment[]>(url);
     }
@@ -32,6 +28,12 @@ export class CardsService {
         var url = "https://trello.com/1/cards/" + id + "/actions/comments";
 
         return this.helpers.post(url, data);
+    }
+
+    rename(cardIdOrShortLink: string, newName: String): Promise<TrelloCard> {
+        var data = { value: newName };
+        var url = "https://trello.com/1/cards/" + cardIdOrShortLink + "/name";
+        return this.helpers.put(url, data);
     }
 
     archive(shortLink: string) {

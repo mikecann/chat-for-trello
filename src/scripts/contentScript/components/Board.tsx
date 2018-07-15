@@ -2,26 +2,27 @@ import * as React from 'react';
 import { ILogger } from 'mikeysee-helpers';
 import { toArray } from '../../helpers/utils';
 import { observer, inject } from 'mobx-react';
-import { ModelsFactory } from '../helpers/ModelsFactory';
+import { StoresFactory } from '../helpers/StoresFactory';
 import { Portal } from './Portal';
-import { PageModel } from '../models/PageModel';
 import { observable } from 'mobx';
-import { BoardSettingsModel } from '../models/BoardSettingsModel';
 import { BoardButton } from './BoardButton';
+import { PageStore } from '../stores/PageStore';
+import { BoardSettingsStore } from '../stores/BoardSettingsStore';
+import { BoardStore } from '../stores/BoardStore';
 
 interface Props {
-    board: TrelloBoard,
+    board: BoardStore,
     element: HTMLElement,
     logger?: ILogger,
-    page?: PageModel,
-    factory?: ModelsFactory
+    page?: PageStore,
+    factory?: StoresFactory
 }
 
 @inject("logger", "page", "factory")
 @observer
 export class Board extends React.Component<Props, any>
 {
-    @observable settings: BoardSettingsModel;
+    @observable settings: BoardSettingsStore;
 
     private semanticStyles?: HTMLLinkElement;
 

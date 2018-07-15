@@ -1,7 +1,7 @@
 import { ILogger } from "mikeysee-helpers";
-import { PageModel } from "../contentScript/models/PageModel";
 import { setProps } from "../helpers/utils";
 import { runInAction } from "mobx";
+import { PageStore } from "../contentScript/stores/PageStore";
 
 interface InterceptedData {
     request: {
@@ -16,7 +16,7 @@ export class WebRequestInterceptorHandler
 {
     constructor(
         private logger: ILogger,
-        private page: PageModel
+        private page: PageStore
     ) {}
 
     listen() {
@@ -51,18 +51,18 @@ export class WebRequestInterceptorHandler
             return;
         }
 
-        const card = board.cards.find(c => c.id == modelId);
-        if (card) {
-            this.logger.debug("WebRequestInterceptorHandler", "Updating Card with new data", modelId, data);
-            runInAction(() => setProps(card, data));
-            return;
-        }
+        // const card = board.cards.find(c => c.id == modelId);
+        // if (card) {
+        //     this.logger.debug("WebRequestInterceptorHandler", "Updating Card with new data", modelId, data);
+        //     runInAction(() => setProps(card, data));
+        //     return;
+        // }
 
-        const list = board.lists.find(c => c.id == modelId);
-        if (list) {
-            this.logger.debug("WebRequestInterceptorHandler", "Updating List with new data", modelId, data);
-            runInAction(() => setProps(list, data));
-            return;
-        }
+        // const list = board.lists.find(c => c.id == modelId);
+        // if (list) {
+        //     this.logger.debug("WebRequestInterceptorHandler", "Updating List with new data", modelId, data);
+        //     runInAction(() => setProps(list, data));
+        //     return;
+        // }
     }
 }
