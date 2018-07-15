@@ -1,0 +1,32 @@
+.trello-chat-popup.minimised
+{
+	height: 32px;
+	width: 200px;
+}
+
+
+
+.trello-chat-popup .header .options
+{
+	float: right;
+	margin-right: 5px;
+}
+
+.trello-chat-popup .header .options a
+{
+	padding-left: 5px;
+	padding-right: 5px;
+	border-radius: 3px;
+	color: #9A9A9A;
+	font-weight: normal;
+}
+
+.trello-chat-popup .header .options a:hover
+{
+	color: #666666;
+}
+
+.trello-chat-popup .header .logo
+{	
+	margin-right: 5px;
+}

@@ -94,13 +94,13 @@ export class WebSocketInterceptHandler {
         if (delta.type != "commentCard")
             return;
 
-        const comment = delta as TrelloAction<TrelloComment>;
+        const comment = delta as TrelloCommentAction;
         const isChatComment = comment.data.card.id == board.chat.card.id;
 
         if (!isChatComment)
             return;
 
-        board.chat.history.push(comment.data);
+        board.chat.history.push(comment);
         //var action = board.actions.find(a => a.id == delta.id);
         //action ? setProps(action, delta) : board.actions.push(delta as TrelloAction<any>);
     }

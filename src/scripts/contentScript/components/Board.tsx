@@ -9,7 +9,7 @@ import { BoardButton } from './BoardButton';
 import { PageStore } from '../stores/PageStore';
 import { BoardSettingsStore } from '../stores/BoardSettingsStore';
 import { BoardStore } from '../stores/BoardStore';
-import { ChatWindow } from './ChatWindow';
+import { ChatWindow } from './Chat/ChatWindow';
 
 interface Props {
     board: BoardStore,
@@ -59,7 +59,8 @@ export class Board extends React.Component<Props, any>
 
     render() {
         // console.log("BOARD UPDATED ", this.props.board.name)
-        this.settings.isEnabled ? this.addSemanticUIStyles() : this.removeSemanticUIStyles();
+        const isEnabled = this.settings.isEnabled;
+        isEnabled ? this.addSemanticUIStyles() : this.removeSemanticUIStyles();       
         return <React.Fragment>
             <Portal
                 queryEl={this.props.element}
@@ -67,7 +68,7 @@ export class Board extends React.Component<Props, any>
                 mountId="chat-for-trello-board-btn">
                 <BoardButton model={this.settings} />
             </Portal>
-            <ChatWindow store={this.props.board.chat} />
+            { isEnabled ? <ChatWindow store={this.props.board.chat} /> : null }
         </React.Fragment>
     }
 }

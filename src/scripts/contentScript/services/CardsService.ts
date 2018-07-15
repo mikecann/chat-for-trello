@@ -11,13 +11,13 @@ export class CardsService {
         private batchService: GetBatchService
     ) {}
 
-    getComments(id: string, options: any): Promise<TrelloComment[]> {
+    getComments(id: string, options: any): Promise<TrelloCommentAction[]> {
 
         this.logger.debug("CardService Loading card comments for card", id);
 
         var url = constructURL("https://trello.com/1/cards/" + id + "/actions", options);
 
-        return this.batchService.batch<TrelloComment[]>(url);
+        return this.batchService.batch<TrelloCommentAction[]>(url);
     }
 
     addComment(id: string, msg: string): Promise<boolean> {

@@ -94,7 +94,7 @@ export class ChatService {
 		return this.listsService.update(list);
 	}
 
-	getChatHistory(cardId: string): Promise<TrelloComment[]> {
+	getChatHistory(cardId: string): Promise<TrelloCommentAction[]> {
 		return this.cardService.getComments(cardId, {
 			fields: "data,date,idMemberCreator",
 			limit: 50
