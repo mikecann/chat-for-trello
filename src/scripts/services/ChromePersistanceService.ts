@@ -1,5 +1,6 @@
 import { IPersistanceService, WatchDisposer } from './IPersistanceService';
 import { ILogger } from 'mikeysee-helpers';
+import { debounce } from 'ts-debounce';
 
 export class ChromePersistanceService implements IPersistanceService {
 
@@ -25,7 +26,7 @@ export class ChromePersistanceService implements IPersistanceService {
 
     }
 
-    save<T>(key: string, value: T): Promise<void> {
+    private doSave = <T>(key: string, value: T): Promise<void> => {
 
         return new Promise<void>((resolve, reject) => {
             this.logger.debug(`ChromePersistanceService saving value with key '${key}'`, value);
@@ -34,6 +35,8 @@ export class ChromePersistanceService implements IPersistanceService {
             }, () => resolve())
         });
     }
+
+    save = debounce(this.doSave, 500);
 
     watch<T>(key: string, callback: (newValue: T) => void): WatchDisposer {
         const listener = (changes: { [key: string]: chrome.storage.StorageChange }, areaName: string) => {            

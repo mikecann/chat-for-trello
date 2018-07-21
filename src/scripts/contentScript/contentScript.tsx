@@ -19,7 +19,6 @@ import { BoardsService } from './services/BoardsService';
 import { Page } from './components/Page';
 import { ListsService } from './services/ListsService';
 import { WebSocketInterceptHandler } from '../controllers/WebSocketInterceptHandler';
-import { WebRequestInterceptorHandler } from '../controllers/WebRequestInterceptorHandler';
 import { ResetController } from '../controllers/ResetController';
 import { ChatService } from './services/ChatService';
 

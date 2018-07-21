@@ -33,32 +33,44 @@ export class ChatWindow extends React.Component<Props, {}>
                     display: "flex",
                     flexDirection: "column",
                     background: "none",
-                    boxShadow: "1px -1px 20px 1px rgba(0, 0, 0, 0.2)",
-                    overflow: "hidden"
+                    boxShadow: "1px -1px 20px 1px rgba(0, 0, 0, 0.2)"
                 }}
-                minWidth={200}
-                minHeight={200}
-                disableDragging={true}
-                default={{
-                    x: 0,
-                    y: -300,
-                    width: 300,
-                    height: 300
+                minWidth={store.minWidth}
+                minHeight={store.minHeight}
+                size={{ 
+                    width: store.dimensions.width,
+                    height: store.dimensions.height,
                 }}
+                position={{
+                    x: store.dimensions.x,
+                    y: store.dimensions.y
+                }}
+                enableResizing={{
+                    bottom: !store.isMinimised,
+                    bottomLeft: !store.isMinimised,
+                    bottomRight: !store.isMinimised,
+                    left: !store.isMinimised,
+                    right: !store.isMinimised,
+                    top:!store.isMinimised,
+                    topLeft: !store.isMinimised,
+                    topRight: !store.isMinimised,
+                  }}
+                disableDragging={false}
+                dragHandleClassName="chat-window-header"
+                onResize={store.onResize}           
+                onDrag={store.onDrag}
+                bounds=".board-wrapper"
             >
 
-                <ChatWindowHeader
-                    onClose={() => {}}
-                    onToggleMinimise={() => {}}
-                    isMinimised={false}
-                    />
-                    
-                <ChatWindowBody 
-                    actions={store.history} />
+                <ChatWindowHeader store={store} />
 
-                <ChatWindowFooter  
-                    onSubmitMessage={store.submitMessage}
-                    />
+                {
+                    store.isMinimised ? null : 
+                        <React.Fragment>
+                            <ChatWindowBody actions={store.history} />
+                            <ChatWindowFooter onSubmitMessage={store.submitMessage} />
+                        </React.Fragment>
+                }
 
             </Rnd>
         </div>

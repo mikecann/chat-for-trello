@@ -23,23 +23,23 @@ export class ContentScriptController
     {
         this.logger.debug("ContentScriptController injecting content script into tabs..")
         return new Promise<any>((resolve, reject) => {
-            chrome.tabs.query({}, tabs =>
-            {
-                tabs = tabs.filter(t => t.url && t.url.includes("trello.com/"));
-                this.logger.debug(`Injecting content script into ${tabs.length} tabs`, tabs);
-                for(var tab of tabs)
-                {
-                    try
-                    {
-                        if (tab.id != undefined)
-                            chrome.tabs.executeScript(tab.id, { file: "contentscript-bundle.js" }, () => {});
-                    }
-                    catch(e)
-                    {                    
-                    }
-                }  
-                resolve();              
-            });
+            // chrome.tabs.query({}, tabs =>
+            // {
+            //     tabs = tabs.filter(t => t.url && t.url.includes("trello.com/"));
+            //     this.logger.debug(`Injecting content script into ${tabs.length} tabs`, tabs);
+            //     for(var tab of tabs)
+            //     {
+            //         try
+            //         {
+            //             if (tab.id != undefined)
+            //                 chrome.tabs.executeScript(tab.id, { file: "contentscript-bundle.js" }, () => {});
+            //         }
+            //         catch(e)
+            //         {                    
+            //         }
+            //     }  
+            //     resolve();              
+            // });
         });       
     }
 

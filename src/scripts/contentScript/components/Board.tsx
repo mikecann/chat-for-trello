@@ -23,15 +23,7 @@ interface Props {
 @observer
 export class Board extends React.Component<Props, any>
 {
-    @observable settings: BoardSettingsStore;
-
     private semanticStyles?: HTMLLinkElement;
-
-    constructor(props: Props, context?: any) {
-        super(props, context);
-        this.settings = props.factory!.createBoardSettings(this.props.board.id);
-        this.settings.init();
-    }
 
     addSemanticUIStyles() {
         if (this.semanticStyles)
@@ -53,22 +45,30 @@ export class Board extends React.Component<Props, any>
     }
 
     componentWillUnmount() {
-        this.settings.dispose();
+        this.props.board.dispose();
         this.removeSemanticUIStyles();
     }
 
     render() {
         // console.log("BOARD UPDATED ", this.props.board.name)
-        const isEnabled = this.settings.isEnabled;
-        isEnabled ? this.addSemanticUIStyles() : this.removeSemanticUIStyles();       
+        const board = this.props.board;
+        const isEnabled = board.settings.isEnabled;
+        isEnabled ? this.addSemanticUIStyles() : this.removeSemanticUIStyles();
         return <React.Fragment>
             <Portal
                 queryEl={this.props.element}
                 querySelector=".board-header-btns"
                 mountId="chat-for-trello-board-btn">
-                <BoardButton model={this.settings} />
+                <BoardButton model={board.settings} />
             </Portal>
-            { isEnabled ? <ChatWindow store={this.props.board.chat} /> : null }
+            {isEnabled ?
+                <Portal
+                    queryEl={window.document.body}
+                    querySelector=".board-wrapper"
+                    mountId="chat-for-trello-window">
+                    <ChatWindow store={this.props.board.chat} />
+                </Portal>
+                : null}
         </React.Fragment>
     }
 }

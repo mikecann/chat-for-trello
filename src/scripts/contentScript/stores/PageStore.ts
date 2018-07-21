@@ -21,7 +21,7 @@ export class PageStore {
             });
 
         const boardStore = this.factory.createBoard(trelloBoard);
-        await boardStore.load();
+        await boardStore.init();
 
         this.logger.debug("PageModel loaded board.", trelloBoard);
         

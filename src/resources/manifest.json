@@ -35,7 +35,6 @@
       }
     ],
     "web_accessible_resources": [
-      "libs/websocket-wrapper/content.js",
       "libs/semantic-ui/semantic.content-script.css",
       "libs/semantic-ui/icons.svg",
       "libs/semantic-ui/icons.eot",

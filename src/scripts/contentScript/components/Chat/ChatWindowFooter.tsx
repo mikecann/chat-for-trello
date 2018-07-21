@@ -28,7 +28,10 @@ export class ChatWindowFooter extends React.Component<ChatPopupBodyProps, {}> {
         return <div 
             style={{
                 background: "#edeff0",
-                borderTop: "1px solid #dddddd"
+                borderTop: "1px solid #dddddd",
+                borderBottomLeftRadius: 6,
+                borderBottomRightRadius: 6,
+                overflow: "hidden"
             }}
             >
             <textarea 
