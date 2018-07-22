@@ -26,4 +26,4 @@ export class Socials extends React.Component<Props, {}>
 }
 
 const SocialButton = (props: { href:string, icon: SemanticICONS }) => 
-    <a style={{ color: "#67c7ff" }} href={props.href}><Icon name={props.icon} /></a>
+    <a style={{ color: "#67c7ff" }} href={props.href} target="_blank"><Icon name={props.icon} /></a>

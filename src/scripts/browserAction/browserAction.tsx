@@ -6,7 +6,6 @@ import { ChromeService } from '../services/ChromeService';
 import { BrowserActionModel } from './models/BrowserActionModel';
 import { UpdatesLoader } from '../helpers/UpdatesLoader';
 import { setupStandardLogging, addLiveReloadIfDevMode } from '../helpers/utils';
-import { ResetController } from '../controllers/ResetController';
 
 async function init() {
 
@@ -14,12 +13,10 @@ async function init() {
   const logger = await setupStandardLogging("Browser Action");
   const chromeService = new ChromeService();
   const model = new BrowserActionModel(chromeService);
-  const resetController = new ResetController();
 
   // Init  
   model.init(new UpdatesLoader());
   addLiveReloadIfDevMode();
-  resetController.listenForReset();
 
   ReactDOM.render(
     <Provider logger={logger}>

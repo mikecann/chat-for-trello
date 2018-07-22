@@ -17,7 +17,7 @@ export class Suggest extends React.Component<Props, {}>
         return <Page location={this.props.location}>
             <Segment>
                 <Header as="h1">Suggest</Header>
-                <p>If you have a suggestion for a feature for the extension please do <a href="https://trello.com/b/H9WH4BAm/chat-for-trello">add it to our Trello page</a>. There are a number of suggestions on there already so make sure you check to see if your suggestion is already there before posting a new one. Thanks :)</p>
+                <p>If you have a suggestion for a feature for the extension please do <a href="https://trello.com/b/Mdpd40Tt/">add it to our Trello page</a>. There are a number of suggestions on there already so make sure you check to see if your suggestion is already there before posting a new one. Thanks :)</p>
             </Segment>
         </Page>
     }

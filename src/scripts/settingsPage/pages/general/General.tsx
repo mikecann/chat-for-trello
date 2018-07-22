@@ -11,14 +11,16 @@ import { AutoScrollSetting } from './AutoScrollSetting';
 import { MaxChatEntriesSetting } from './MaxChatEntriesSetting';
 import { ChatWindowOrder } from '../../../models/ChatWindowOrder';
 import { ChatWindowOrderSetting } from './ChatWindowOrderSetting';
+import { BackgroundPage } from '../../../background/background';
 
 interface Props {
     logger?: ILogger,
     location: Location,
-    model: AppSettingsModel
+    model: AppSettingsModel,
+    background: BackgroundPage
 }
 
-@inject("logger", "model")
+@inject("logger", "model", "background")
 @observer
 export class General extends React.Component<Props, {}>
 {
@@ -29,8 +31,9 @@ export class General extends React.Component<Props, {}>
     @action openResetWarningModal = () => this.isResetWarningModalOpen = true;
 
     onConfirmResetSettings = () => {
-        this.props.model.reset();
+        this.props.background.reset();
         this.closeResetWarningModal();
+        window.location.reload();
     }
 
     render() {

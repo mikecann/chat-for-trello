@@ -2,7 +2,6 @@ import { observable, action,toJS, computed } from 'mobx';
 import { IPersistanceService } from '../services/IPersistanceService';
 import { ILogger } from 'mikeysee-helpers';
 import { Persister } from '../helpers/Persister';
-import { ResetController } from '../controllers/ResetController';
 import { isDevMode } from '../helpers/utils';
 import { ChatWindowOrder } from './ChatWindowOrder';
 
@@ -16,7 +15,7 @@ export const appSettingDefaults = {
     chatWindowOrder: ChatWindowOrder.InfrontOfCards
 }
 
-export const persistanceKey = `AppSettings-v2.2.0`;
+export const persistanceKey = `AppSettings-v2.0.0`;
 
 export class AppSettingsModel
 {
@@ -26,8 +25,7 @@ export class AppSettingsModel
 
     constructor(
         private persistance: IPersistanceService, 
-        private logger: ILogger,
-        private resetController: ResetController
+        private logger: ILogger
     ) {        
     }
 
@@ -44,13 +42,6 @@ export class AppSettingsModel
 
     persist() {
         return this.persister.persist(toJS(this.settings));
-    }
-
-    async reset() {
-        this.logger.debug("AppSettingsModel resetting all saved data..");
-        this.persister.dispose();
-        await this.persistance.clear();
-        this.resetController.sendReset();
     }
 
     dispose() {

@@ -19,7 +19,6 @@ import { BoardsService } from './services/BoardsService';
 import { Page } from './components/Page';
 import { ListsService } from './services/ListsService';
 import { WebSocketInterceptHandler } from '../controllers/WebSocketInterceptHandler';
-import { ResetController } from '../controllers/ResetController';
 import { ChatService } from './services/ChatService';
 
 async function init() {
@@ -53,8 +52,7 @@ async function init() {
   const listsService = new ListsService(logger, serviceHelpers);
   const chatService = new ChatService(logger, serviceHelpers, boardsService, listsService, cardService);
   const persistance = new ChromePersistanceService(chrome.storage.sync, logger);
-  const resetController = new ResetController();
-  const appSettings = new AppSettingsModel(persistance, logger, resetController);
+  const appSettings = new AppSettingsModel(persistance, logger);
   const factory = new StoresFactory(cardService, persistance, appSettings, logger, boardsService, chatService);
   const page = factory.createPage();
   const websocket = new WebSocketInterceptHandler(logger, page);
@@ -67,12 +65,11 @@ async function init() {
   await auth.init();
   backgroundController.connect();
   websocket.listen();
-  resetController.listenForReset();
 
   // If we disconnect, then lets just refresh the page to cleanup
   backgroundController.onDisconnect.add(() => {
     logger.debug("Background disconnected, reloading now..")
-    //window.location.reload();
+    window.location.reload();
   });
 
   // Start renering

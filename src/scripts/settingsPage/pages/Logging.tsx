@@ -11,6 +11,7 @@ import { Page } from '../components/Page';
 import { SettingsSaveButton } from '../components/SettingsSaveButton';
 import { SaveButton } from '../components/SaveButton';
 import { BackgroundPage } from '../../background/background';
+import { waitForMilliseconds } from '../../helpers/utils';
 
 interface Props {
     logger?: ILogger,
@@ -56,7 +57,8 @@ export class Logging extends React.Component<Props, {}>
             return false;
 
         this.props.model.persist()
-            .then(() =>  {
+            .then(async () =>  {
+                await waitForMilliseconds(500);
                 this.props.background!.restart();
                 window.close();
             })        

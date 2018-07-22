@@ -1,7 +1,12 @@
 ﻿[
   {
+    "version": "2.1",
+    "date": "22/07/2018",
+    "notes": "updatenotes/update-2.1.md"
+  },
+  {
     "version": "2.0",
-    "date": "15/07/2018",
+    "date": "22/07/2018",
     "notes": "updatenotes/update-2.0.md"
   }
 ]
