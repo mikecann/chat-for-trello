@@ -1,10 +1,6 @@
 import { ILogger } from "mikeysee-helpers";
 import { AppSettings, AppSettingsModel } from "../../models/AppSettingsModel";
 import { runInAction, toJS } from "mobx";
-
-
-
-
 import { ChromeService } from "../../services/ChromeService";
 
 export class MigrationsController {
