@@ -7,10 +7,6 @@ import {
     Header,
     Icon,
     Grid,
-
-
-
-
     Card,
     Image,
     Label,
@@ -21,6 +17,11 @@ import { BackgroundPage } from "../../background/background";
 import { PageAuthModel } from "../../models/AuthModel";
 import { Page } from "../components/Page";
 import { observable, runInAction } from "mobx";
+
+
+
+
+
 import { StartFreeTrialModal } from "../components/StartFreeTrialModal";
 import { StartPremiumModal } from "../components/StartPremiumModal";
 import { CancelMembershipModal } from "../components/CancelMembershipModal";
