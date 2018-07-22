@@ -2,7 +2,6 @@ import { CardsService } from '../services/CardsService';
 import { IPersistanceService } from '../../services/IPersistanceService';
 import { ILogger } from 'mikeysee-helpers';
 import { BoardsService } from '../services/BoardsService';
-import { ListSettingsModel } from '../../models/ListSettingsModel';
 import { AppSettingsModel } from '../../models/AppSettingsModel';
 import { BoardStore } from '../stores/BoardStore';
 import { PageStore } from '../stores/PageStore';
@@ -33,7 +32,7 @@ export class StoresFactory {
 
     createChat(board: BoardStore) {
         this.logger.debug("ModelsFactory creating Chat");
-        return new ChatStore(this.logger, board, this, this.chatService);
+        return new ChatStore(this.logger, board, this, this.chatService, this.appSettings);
     }
 
     createBoardSettings(boardId: string): BoardSettingsStore {

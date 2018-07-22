@@ -9,7 +9,8 @@ interface Props {
     querySelector: string,
     mountId: string,
     mountRef?: (el:HTMLElement)=>void;
-    mountElementType?: string
+    mountElementType?: string,
+    mountAsFirst?: boolean
 }
 
 @inject("logger")
@@ -34,7 +35,10 @@ export class Portal extends React.Component<Props, any>
             if (this.props.mountRef)
                 this.props.mountRef(mount as HTMLElement);
 
-            mountContainer.appendChild(mount);
+            if (this.props.mountAsFirst)
+                mountContainer.insertBefore(mount, mountContainer.firstChild);
+            else
+                mountContainer.appendChild(mount);
         }
 
         return ReactDOM.createPortal(

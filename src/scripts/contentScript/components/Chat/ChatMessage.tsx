@@ -70,7 +70,7 @@ export class ChatMessage extends React.Component<Props, {}>
 	                    cursor: "auto"
                     }}
                     >
-                    {action.data.text}
+                    <p>{action.data.text}</p>
                 </div>
             </div>
             

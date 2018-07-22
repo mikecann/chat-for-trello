@@ -25,7 +25,7 @@ export class Page extends React.Component<Props, {}>
 
     onSuggestClicked = () => {
         chrome.tabs.create({ url: "https://trello.com/b/Mdpd40Tt" })
-    }
+}
 
     render() {
         return <div>
@@ -40,7 +40,7 @@ export class Page extends React.Component<Props, {}>
                                 <Header.Subheader style={{ color: "#67c7ff" }}>by Mike Cann (<Socials />)</Header.Subheader>
                             </Grid.Column>
                             <Grid.Column width={3}>
-                            <Image src="images/logo-128x128.png" floated="right" width={55} />
+                            <Image src="images/logo-128x128-inverted.png" floated="right" width={55} />
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>

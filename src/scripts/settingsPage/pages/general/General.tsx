@@ -1,12 +1,16 @@
 import * as React from 'react';
 import { observer, inject } from 'mobx-react';
 import { ILogger } from 'mikeysee-helpers';
-import { Segment, Header, Form, Button, Modal, Divider, Icon } from 'semantic-ui-react';
+import { Segment, Header, Form, Button, Modal, Divider, Icon, Checkbox, CheckboxProps, Dropdown } from 'semantic-ui-react';
 import { Slider } from 'react-semantic-ui-range'
-import { AppSettingsModel } from '../../models/AppSettingsModel';
-import { Page } from '../components/Page';
-import { SettingsSaveButton } from '../components/SettingsSaveButton';
-import { observable, runInAction } from 'mobx';
+import { AppSettingsModel } from '../../../models/AppSettingsModel';
+import { Page } from '../../components/Page';
+import { SettingsSaveButton } from '../../components/SettingsSaveButton';
+import { observable, runInAction, action } from 'mobx';
+import { AutoScrollSetting } from './AutoScrollSetting';
+import { MaxChatEntriesSetting } from './MaxChatEntriesSetting';
+import { ChatWindowOrder } from '../../../models/ChatWindowOrder';
+import { ChatWindowOrderSetting } from './ChatWindowOrderSetting';
 
 interface Props {
     logger?: ILogger,
@@ -20,15 +24,9 @@ export class General extends React.Component<Props, {}>
 {
     @observable isResetWarningModalOpen = false;
 
-    onOpacitySliderChange = (value: number) => {
-        runInAction(() => this.props.model.settings.opacityOfCompletedTaskPercent = value);
-    }
-
-    closeResetWarningModal = () =>
-        runInAction(() => this.isResetWarningModalOpen = false);
-
-    openResetWarningModal = () =>
-        runInAction(() => this.isResetWarningModalOpen = true);
+    @action closeResetWarningModal = () => this.isResetWarningModalOpen = false;
+    
+    @action openResetWarningModal = () => this.isResetWarningModalOpen = true;
 
     onConfirmResetSettings = () => {
         this.props.model.reset();
@@ -47,17 +45,10 @@ export class General extends React.Component<Props, {}>
                 <Divider section />
                 <Form>
 
-                    <Form.Field>
-                        <label>Opacity of Completed Task</label>
-                        <Slider color="grey" value={settings.opacityOfCompletedTaskPercent} inverted={false} settings={{
-                            start: settings.opacityOfCompletedTaskPercent,
-                            min: 0,
-                            max: 100,
-                            step: 1,
-                            onChange: this.onOpacitySliderChange
-                        }} />
-                    </Form.Field>
-
+                    <AutoScrollSetting />
+                    <MaxChatEntriesSetting />
+                    <ChatWindowOrderSetting />
+                  
                 </Form>
                 <Divider section />
                 <SettingsSaveButton />

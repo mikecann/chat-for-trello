@@ -25,7 +25,7 @@ export class ChatWindowFooter extends React.Component<ChatPopupBodyProps, {}> {
     @action onInputValueChange = (e: any) =>  this.message = e.target.value
 
     render() {
-        return <div 
+        return <div           
             style={{
                 background: "#edeff0",
                 borderTop: "1px solid #dddddd",

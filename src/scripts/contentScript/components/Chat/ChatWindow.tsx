@@ -1,12 +1,11 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import { ChatStore } from '../../stores/ChatStore';
-import { Segment, Header, Comment, Form, Button } from 'semantic-ui-react';
-import { ChatMessage } from './ChatMessage';
 import { ChatWindowBody } from './ChatWindowBody';
 import { ChatWindowFooter } from './ChatWindowFooter';
 import { ChatWindowHeader } from './ChatWindowHeader';
 import Rnd from "react-rnd";
+import { ChatWindowDragHandle } from './ChatWindowDragHandle';
 
 interface Props {
     store: ChatStore
@@ -17,23 +16,20 @@ export class ChatWindow extends React.Component<Props, {}>
 {
     render() {
         const store = this.props.store;
+
         return <div
             style={{
                 position: "absolute",
-                bottom: 30,
+                bottom: 10,
                 left: 10,
-                zIndex: 24,
+                zIndex: store.zIndex,
             }}
         >
-
             <Rnd
                 style={{
-                    border: "1px solid #aaaaaa",
-                    borderRadius: 6,
                     display: "flex",
                     flexDirection: "column",
                     background: "none",
-                    boxShadow: "1px -1px 20px 1px rgba(0, 0, 0, 0.2)"
                 }}
                 minWidth={store.minWidth}
                 minHeight={store.minHeight}
@@ -46,7 +42,7 @@ export class ChatWindow extends React.Component<Props, {}>
                     y: store.dimensions.y
                 }}
                 enableResizing={{
-                    bottom: !store.isMinimised,
+                    bottom: false,
                     bottomLeft: !store.isMinimised,
                     bottomRight: !store.isMinimised,
                     left: !store.isMinimised,
@@ -56,20 +52,37 @@ export class ChatWindow extends React.Component<Props, {}>
                     topRight: !store.isMinimised,
                   }}
                 disableDragging={false}
-                dragHandleClassName="chat-window-header"
+                dragHandleClassName="chat-window-drag-handle"
                 onResize={store.onResize}           
                 onDrag={store.onDrag}
-                bounds=".board-wrapper"
+                bounds=".chat-window-bounds"
             >
+                <div
+                    style={{
+                        border: "1px solid #aaaaaa",
+                        boxShadow: "1px -1px 20px 1px rgba(0, 0, 0, 0.2)",
+                        background: "none",
+                        borderRadius: 6,
+                        flex: 1,
+                        display: "flex",
+                        flexDirection: "column",
+                    }}
+                    >
 
                 <ChatWindowHeader store={store} />
 
                 {
                     store.isMinimised ? null : 
                         <React.Fragment>
-                            <ChatWindowBody actions={store.history} />
-                            <ChatWindowFooter onSubmitMessage={store.submitMessage} />
+                            <ChatWindowBody store={store} />                            
+                            <ChatWindowFooter onSubmitMessage={store.submitMessage} />                            
                         </React.Fragment>
+                }
+
+                </div>
+
+                {
+                    store.isMinimised ? null : <ChatWindowDragHandle />
                 }
 
             </Rnd>

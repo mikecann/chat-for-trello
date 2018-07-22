@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import { ChatStore } from '../../stores/ChatStore';
-import { Icon, Button } from 'semantic-ui-react';
+import { Icon, Button, Label } from 'semantic-ui-react';
 
 interface ChatPopupBodyProps {
     store: ChatStore
@@ -15,7 +15,8 @@ export class ChatWindowHeader extends React.Component<ChatPopupBodyProps, {}> {
         const store = this.props.store;
 
         return <div
-            className="chat-window-header"
+            className="chat-window-drag-handle"
+            onDoubleClick={store.onToggleMinimise}
             style={{
                 paddingTop: 8,
                 paddingBottom: 0,
@@ -30,8 +31,9 @@ export class ChatWindowHeader extends React.Component<ChatPopupBodyProps, {}> {
                 overflow: "hidden",
                 borderBottom: "1px solid #dddddd",
                 fontSize: 16,
-                fontWeight: "bold",
-                color: "grey"
+                fontWeight: "bold",            
+                color: "grey",
+                cursor: "move"
             }}
         >
             <img
@@ -43,14 +45,28 @@ export class ChatWindowHeader extends React.Component<ChatPopupBodyProps, {}> {
                 }}
                 src={chrome.extension.getURL("./images/logo-16x16.png")} />
 
-                <a 
-                    style={{
-                        marginLeft: 30,
-                        textDecoration: "none"
-                    }}
-                >
+            {/* <Label
+                style={{
+                    position: "absolute",
+                    minWidth: 12,
+                    minHeight: 10,
+                    left: 4,
+                    top: 5
+                }}
+                circular
+                color="red">
+                2
+                </Label> */}
+
+            <span
+                style={{
+                    marginLeft: 30,
+                    textDecoration: "none",
+                    cursor: "move"
+                }}
+            >
                 Chat for Trello
-                </a>
+                </span>
 
             <span
                 style={{

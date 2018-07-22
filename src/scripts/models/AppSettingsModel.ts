@@ -2,23 +2,18 @@ import { observable, action,toJS, computed } from 'mobx';
 import { IPersistanceService } from '../services/IPersistanceService';
 import { ILogger } from 'mikeysee-helpers';
 import { Persister } from '../helpers/Persister';
-import { LogLevel } from '../helpers/Logging';
-import { ListSettings, defaultListSettings } from './ListSettingsModel';
 import { ResetController } from '../controllers/ResetController';
-import { setProps, isDevMode } from '../helpers/utils';
+import { isDevMode } from '../helpers/utils';
+import { ChatWindowOrder } from './ChatWindowOrder';
 
-export interface AppSettings {
-    opacityOfCompletedTaskPercent: number,
-    logLevel: LogLevel,
-    listDefaults: ListSettings,
-    lastMigratedVersion: string
-}
+export type AppSettings = typeof appSettingDefaults;
 
-export const appSettingDefaults : AppSettings = {
-    opacityOfCompletedTaskPercent: 40,
+export const appSettingDefaults = {
+    autoScrollChatWindow: true,
     logLevel: isDevMode ? "debug" : "info",
     lastMigratedVersion: "",
-    listDefaults: { ...defaultListSettings }
+    maxChatEntries: 100,
+    chatWindowOrder: ChatWindowOrder.InfrontOfCards
 }
 
 export const persistanceKey = `AppSettings-v2.2.0`;
@@ -43,7 +38,7 @@ export class AppSettingsModel
     }
 
     @action private depersist(data: AppSettings) {
-        this.settings = data;
+        this.settings = {...appSettingDefaults, ...data};
         this.logger.debug("AppSettings settings depersisted", data);
     }
 

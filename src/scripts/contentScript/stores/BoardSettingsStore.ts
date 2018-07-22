@@ -3,13 +3,9 @@ import { IPersistanceService } from '../../services/IPersistanceService';
 import { ILogger } from 'mikeysee-helpers';
 import { WindowDimensions } from './WindowDimensions';
 
-interface BoardSettingsModelPersistanceData {
-    isEnabled: boolean,
-    chatWindowDimensions: WindowDimensions,
-    isChatWindowMinimised: boolean,
-}
+export type BoardSettings = typeof defaultSettings;
 
-const defaultPersistanceValues: BoardSettingsModelPersistanceData = {
+const defaultSettings = {
     isEnabled: false,
     isChatWindowMinimised: false,
     chatWindowDimensions: {
@@ -22,9 +18,7 @@ const defaultPersistanceValues: BoardSettingsModelPersistanceData = {
 
 export class BoardSettingsStore {
 
-    @observable isEnabled: boolean = false;
-    @observable chatWindowDimensions: WindowDimensions;
-    @observable isChatWindowMinimised: boolean = false;
+    @observable settings: BoardSettings = {...defaultSettings};
 
     private autorunDisposer: IReactionDisposer;
 
@@ -33,25 +27,21 @@ export class BoardSettingsStore {
 
     @action async init() {
         this.beginPersistingChanges();
-        var data = await this.persistance.load(this.persistanceKey, defaultPersistanceValues);
-        this.logger.debug("Board settings depersisted", data);
-        runInAction(() => {
-            this.isEnabled = data.isEnabled == true;
-            this.chatWindowDimensions = data.chatWindowDimensions || defaultPersistanceValues.chatWindowDimensions;
-            this.isChatWindowMinimised = data.isChatWindowMinimised == true;
-        });        
+        var settings = await this.persistance.load(this.persistanceKey, defaultSettings);
+        this.logger.debug("Board settings depersisted", settings);
+        runInAction(() => this.settings = {...defaultSettings, ...settings});        
     }
 
     @action toggleEnabled() {
-        this.isEnabled = !this.isEnabled;
-        if (this.isEnabled) {
-            this.isChatWindowMinimised = defaultPersistanceValues.isChatWindowMinimised;
-            this.chatWindowDimensions = defaultPersistanceValues.chatWindowDimensions;
+        this.settings.isEnabled = !this.settings.isEnabled;
+        if (this.settings.isEnabled) {
+            this.settings.isChatWindowMinimised = defaultSettings.isChatWindowMinimised;
+            this.settings.chatWindowDimensions = defaultSettings.chatWindowDimensions;
         }
     }
 
     @action toggleChatWindowMinimised() {
-        this.isChatWindowMinimised = !this.isChatWindowMinimised;
+        this.settings.isChatWindowMinimised = !this.settings.isChatWindowMinimised;
     }
 
     private get persistanceKey() {
@@ -59,18 +49,13 @@ export class BoardSettingsStore {
     }
 
     private beginPersistingChanges() {
-        this.autorunDisposer = autorun(() => {
-            const data: BoardSettingsModelPersistanceData = {
-                isEnabled: toJS(this.isEnabled),
-                chatWindowDimensions: toJS(this.chatWindowDimensions),
-                isChatWindowMinimised: toJS(this.isChatWindowMinimised)
-            }
-            this.persistance.save(this.persistanceKey, data);
+        this.autorunDisposer = autorun(() => {           
+            this.persistance.save(this.persistanceKey, toJS(this.settings));
         })
     }
 
     @action setChatWindowDimensions(dimensions: WindowDimensions) {
-        this.chatWindowDimensions = dimensions;
+        this.settings.chatWindowDimensions = dimensions;
     }
 
     dispose() {

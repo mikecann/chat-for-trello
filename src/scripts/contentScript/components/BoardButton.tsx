@@ -17,7 +17,7 @@ export class BoardButton extends React.Component<Props, {}>
 
     render() {
 
-        var isEnabled = this.props.model.isEnabled;
+        var isEnabled = this.props.model.settings.isEnabled;
         var canBeEnabled = location.href != "https://trello.com/b/H9WH4BAm/chat-for-trello";
 
         return <a 

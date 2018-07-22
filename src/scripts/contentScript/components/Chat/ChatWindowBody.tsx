@@ -1,11 +1,15 @@
 import * as React from 'react';
 import { ChatMessage } from './ChatMessage';
-import { observer } from 'mobx-react';
+import { observer, inject } from 'mobx-react';
+import { ChatStore } from '../../stores/ChatStore';
+import { AppSettingsModel } from '../../../models/AppSettingsModel';
 
 interface ChatPopupBodyProps {
-    actions: TrelloCommentAction[];
+    store: ChatStore,
+    appSettings?: AppSettingsModel
 }
 
+@inject("appSettings")
 @observer
 export class ChatWindowBody extends React.Component<ChatPopupBodyProps, {}> {
 
@@ -13,6 +17,9 @@ export class ChatWindowBody extends React.Component<ChatPopupBodyProps, {}> {
 
     scrollToBottom = () => {
         if (!this.messagesEnd)
+            return;
+
+        if (!this.props.appSettings!.settings.autoScrollChatWindow)
             return;
 
         this.messagesEnd.scrollIntoView({ behavior: "smooth" });
@@ -27,7 +34,7 @@ export class ChatWindowBody extends React.Component<ChatPopupBodyProps, {}> {
     }
 
     render() {
-        var actions = this.props.actions;
+        var actions = this.props.store.filteredHistory;
         return <div
             style={{
                 padding: 5,

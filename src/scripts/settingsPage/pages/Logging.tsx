@@ -5,7 +5,7 @@ import { Header, Segment, Form, Dropdown, Button, Icon } from 'semantic-ui-react
 import { AppSettingsModel } from '../../models/AppSettingsModel';
 import { LogLevel } from '../../helpers/Logging';
 import { LogMessagesFromExtensionModel } from '../../models/LogMessagesFromExtensionModel';
-import { observable, runInAction } from 'mobx';
+import { observable, runInAction, action } from 'mobx';
 import { LogEntriesTable } from '../components/LogEntriesTable';
 import { Page } from '../components/Page';
 import { SettingsSaveButton } from '../components/SettingsSaveButton';
@@ -44,8 +44,8 @@ export class Logging extends React.Component<Props, {}>
 {
     @observable logEntriesTableVisible = false;
 
-    onLogLevelChanged = (e: any, { value }: { value: LogLevel }) =>
-        runInAction(() => this.props.model.settings.logLevel = value);
+    @action onLogLevelChanged = (e: any, { value }: { value: LogLevel }) =>
+        this.props.model.settings.logLevel = value
 
     onDownloadLogsClicked = () => this.props.logsModel.download();
 

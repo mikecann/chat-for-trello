@@ -94,10 +94,10 @@ export class ChatService {
 		return this.listsService.update(list);
 	}
 
-	getChatHistory(cardId: string): Promise<TrelloCommentAction[]> {
+	getChatHistory(cardId: string, limit: number = 50): Promise<TrelloCommentAction[]> {
 		return this.cardService.getComments(cardId, {
 			fields: "data,date,idMemberCreator",
-			limit: 50
+			limit: limit
 		});
 	}
 

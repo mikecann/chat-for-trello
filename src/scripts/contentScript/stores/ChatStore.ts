@@ -8,19 +8,22 @@ import { ResizableDirection } from "re-resizable";
 import { ResizableDelta, Position } from "react-rnd";
 import { WindowDimensions } from "./WindowDimensions";
 import { DraggableData } from "react-draggable";
+import { AppSettingsModel } from "../../models/AppSettingsModel";
+import { ChatWindowOrder } from "../../models/ChatWindowOrder";
 
 const minimisedHeight = 35;
 
 export class ChatStore
 {
     @observable card: TrelloCard;
-    @observable history: TrelloCommentAction[] = [];    
+    @observable history: TrelloCommentAction[] = [];
 
     constructor(
         private logger: ILogger,
         private board: BoardStore,
         private factory: StoresFactory,
-        private chatService: ChatService
+        private chatService: ChatService,
+        private appSettings: AppSettingsModel
     ){}
 
     async init() {
@@ -35,10 +38,9 @@ export class ChatStore
     }
 
     private async loadHistory() {
-        const comments = await this.chatService.getChatHistory(this.card.id);
-        const sorted = comments.sort((a,b) => moment(a.date).valueOf() - moment(b.date).valueOf());
-        this.logger.debug("ChatStore", "History loaded", sorted);
-        runInAction(() => this.history = sorted);
+        const comments = await this.chatService.getChatHistory(this.card.id, this.appSettings.settings.maxChatEntries);
+        this.logger.debug("ChatStore", "History loaded", comments);
+        runInAction(() => this.history = comments);
     }
 
     submitMessage = async (message: string) => {
@@ -60,8 +62,13 @@ export class ChatStore
     
     }
 
+    @computed get filteredHistory(): TrelloCommentAction[] {
+        const reverse = this.history.sort((a,b) => moment(b.date).valueOf() - moment(a.date).valueOf());
+        return reverse.slice(0, this.appSettings.settings.maxChatEntries).reverse();
+    }
+
     @action onDrag = (e: Event, data: DraggableData) => {
-        const dimensions = this.board.settings.chatWindowDimensions;
+        const dimensions = this.board.settings.settings.chatWindowDimensions;
         this.board.settings.setChatWindowDimensions({
             width: dimensions.width,
             height: dimensions.height,
@@ -72,7 +79,7 @@ export class ChatStore
 
     @action onToggleMinimise = () => {
         this.board.settings.toggleChatWindowMinimised();
-        const dimensions = this.board.settings.chatWindowDimensions;
+        const dimensions = this.board.settings.settings.chatWindowDimensions;
 
         const yDelta = this.isMinimised ? 
             dimensions.height - minimisedHeight : 
@@ -92,7 +99,7 @@ export class ChatStore
 
     @computed get dimensions(): WindowDimensions {
 
-        const dimensions = this.board.settings.chatWindowDimensions;
+        const dimensions = this.board.settings.settings.chatWindowDimensions;
 
         if (!this.isMinimised)
             return dimensions;
@@ -106,7 +113,7 @@ export class ChatStore
     }
 
     @computed get isMinimised() {
-        return this.board.settings.isChatWindowMinimised;
+        return this.board.settings.settings.isChatWindowMinimised;
     }
 
     @computed get minHeight() {
@@ -115,5 +122,10 @@ export class ChatStore
 
     @computed get minWidth() {
         return 210;
+    }
+
+    @computed get zIndex() {
+        return this.appSettings.settings.chatWindowOrder == ChatWindowOrder.BehindCards ?
+            5 : 25
     }
 }

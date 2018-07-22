@@ -43,7 +43,8 @@
       "libs/semantic-ui/icons.woff2",
       "images/logo-16x16-outline.png",
       "images/logo-16x16-outline-active.png",
-      "images/logo-16x16.png"
+      "images/logo-16x16.png",
+      "images/logo-16x16-inverted.png"
     ],
     "permissions": [
       "storage",
