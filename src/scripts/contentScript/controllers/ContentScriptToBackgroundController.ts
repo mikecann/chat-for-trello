@@ -1,8 +1,7 @@
-import { ILogger, Signal } from 'mikeysee-helpers';
-import { Message } from '../../controllers/ContentScriptController';
+import { ILogger, Signal } from "mikeysee-helpers";
+import { Message } from "../../controllers/ContentScriptController";
 
-export class ContentScriptToBackgroundController
-{
+export class ContentScriptToBackgroundController {
     public onDisconnect: Signal;
     private connection: chrome.runtime.Port;
 
@@ -14,8 +13,8 @@ export class ContentScriptToBackgroundController
         this.connection = chrome.runtime.connect();
 
         this.connection.onDisconnect.addListener(() => {
-          this.logger.debug("Chat for Trello was disconnected from extension.");
-          this.onDisconnect.dispatch();          
+            this.logger.debug("Chat for Trello was disconnected from extension.");
+            this.onDisconnect.dispatch();
         });
     }
 
@@ -24,9 +23,8 @@ export class ContentScriptToBackgroundController
     }
 
     send(msg: Message<any>) {
-        if (!this.connection)
-            return;
-        
+        if (!this.connection) return;
+
         this.connection.postMessage(msg);
     }
 }

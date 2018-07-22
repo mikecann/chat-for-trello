@@ -1,22 +1,21 @@
-import * as React from 'react';
-import { observer, inject } from 'mobx-react';
-import { ILogger } from 'mikeysee-helpers';
-import { Segment, Header, Checkbox, Form, Divider } from 'semantic-ui-react';
-import { Page } from '../components/Page';
-import { PremiumSettingsSegment } from '../components/PremiumSettingsSegment';
-import { AppSettingsModel } from '../../models/AppSettingsModel';
-import { SettingsSaveButton } from '../components/SettingsSaveButton';
+import * as React from "react";
+import { observer, inject } from "mobx-react";
+import { ILogger } from "mikeysee-helpers";
+import { Segment, Header, Checkbox, Form, Divider } from "semantic-ui-react";
+import { Page } from "../components/Page";
+import { PremiumSettingsSegment } from "../components/PremiumSettingsSegment";
+import { AppSettingsModel } from "../../models/AppSettingsModel";
+import { SettingsSaveButton } from "../components/SettingsSaveButton";
 
 interface Props {
-    logger?: ILogger,
-    location: Location,
-    model?: AppSettingsModel
+    logger?: ILogger;
+    location: Location;
+    model?: AppSettingsModel;
 }
 
 @inject("logger", "model")
 @observer
-export class Notifications extends React.Component<Props, {}>
-{
+export class Notifications extends React.Component<Props, {}> {
     render() {
         return "";
         // const model = this.props.model!;

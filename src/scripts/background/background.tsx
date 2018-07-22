@@ -1,25 +1,22 @@
-import { ContentScriptController } from '../controllers/ContentScriptController';
-import { LogMessagesFromExtensionModel } from '../models/LogMessagesFromExtensionModel';
-import { setupStandardLogging, addLiveReloadIfDevMode } from '../helpers/utils';
-import { AppSettingsModel, AppSettings } from '../models/AppSettingsModel';
-import { ChromePersistanceService } from '../services/ChromePersistanceService';
-import { ChromeService } from '../services/ChromeService';
-import { GoogleCloudServices } from '../services/GoogleCloudServices';
-import { BackgroundAuthModel } from '../models/AuthModel';
-import { MigrationsController } from './controllers/MigrationsController';
+import { ContentScriptController } from "../controllers/ContentScriptController";
+import { LogMessagesFromExtensionModel } from "../models/LogMessagesFromExtensionModel";
+import { setupStandardLogging, addLiveReloadIfDevMode } from "../helpers/utils";
+import { AppSettingsModel, AppSettings } from "../models/AppSettingsModel";
+import { ChromePersistanceService } from "../services/ChromePersistanceService";
+import { ChromeService } from "../services/ChromeService";
+import { GoogleCloudServices } from "../services/GoogleCloudServices";
+import { BackgroundAuthModel } from "../models/AuthModel";
+import { MigrationsController } from "./controllers/MigrationsController";
 
 export interface BackgroundPage {
-    logMessagesModel: LogMessagesFromExtensionModel,
-    appSettings: AppSettingsModel,
-    auth: BackgroundAuthModel,
-    restart: () => void,
-    reset: () => void
+    logMessagesModel: LogMessagesFromExtensionModel;
+    appSettings: AppSettingsModel;
+    auth: BackgroundAuthModel;
+    restart: () => void;
+    reset: () => void;
 }
 
-
-
 async function init() {
-
     // Create dependencies
     const logModel = new LogMessagesFromExtensionModel();
     const logger = await setupStandardLogging("Background", msg => logModel.add(msg));
@@ -39,15 +36,15 @@ async function init() {
     background.restart = () => {
         contentScripts.destroy();
         window.location.reload();
-    }
+    };
     background.reset = async () => {
         contentScripts.destroy();
         await persistance.clear();
         window.location.reload();
-    }
+    };
 
     // Init
-    await appSettings.init();    
+    await appSettings.init();
     logModel.listenForNewMessages();
     await contentScripts.init();
     //await auth.init();
@@ -57,10 +54,9 @@ async function init() {
     auth.startPeriodicallyReauthenticating();
 
     // Unload any content scripts before we close
-    window.onbeforeunload = e =>  contentScripts.destroy();   
+    window.onbeforeunload = e => contentScripts.destroy();
 
-    logger.debug("background", "Init complete.")
+    logger.debug("background", "Init complete.");
 }
-
 
 init();

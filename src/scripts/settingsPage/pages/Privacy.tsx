@@ -1,13 +1,13 @@
-import * as React from 'react';
-import { observer, inject } from 'mobx-react';
-import { ILogger } from 'mikeysee-helpers';
-import { Segment } from 'semantic-ui-react';
-import { Page } from '../components/Page';
-import marked = require('marked');
+import * as React from "react";
+import { observer, inject } from "mobx-react";
+import { ILogger } from "mikeysee-helpers";
+import { Segment } from "semantic-ui-react";
+import { Page } from "../components/Page";
+import marked = require("marked");
 
 interface Props {
-    logger?: ILogger,
-    location: Location
+    logger?: ILogger;
+    location: Location;
 }
 
 const content = `
@@ -54,22 +54,23 @@ We may update this privacy policy from time to time in order to reflect, for exa
 For more information about our privacy practices, if you have questions, or if you would like to make a complaint, please contact us by e-mail at mike@cannstudios.com or by mail using the details provided below:
 
 21 Ashworth Way, Newport, SHR, TF107EG, United Kingdom
-`
+`;
 
 @inject("logger")
 @observer
-export class Privacy extends React.Component<Props, {}>
-{
+export class Privacy extends React.Component<Props, {}> {
     rawMarkup() {
         var rawMarkup = marked(content, { sanitize: true });
         return { __html: rawMarkup };
     }
 
     render() {
-        return <Page location={this.props.location}>
-            <Segment>
-                <div dangerouslySetInnerHTML={this.rawMarkup() } />
-            </Segment>
-        </Page>
+        return (
+            <Page location={this.props.location}>
+                <Segment>
+                    <div dangerouslySetInnerHTML={this.rawMarkup()} />
+                </Segment>
+            </Page>
+        );
     }
 }

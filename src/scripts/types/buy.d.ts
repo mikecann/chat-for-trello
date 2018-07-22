@@ -1,46 +1,46 @@
-declare const google : any;
+declare const google: any;
 
 declare interface GoogleIAPProductPrice {
-    valueMicros: string,
-    currencyCode: string,
-    regionCode: string
+    valueMicros: string;
+    currencyCode: string;
+    regionCode: string;
 }
 
 declare interface GoogleIAPProduct {
-    kind: string,
-    sku: string,
-    item_id: string,
-    type: string,
-    state: string,
-    prices: GoogleIAPProductPrice[]
-    localeDate: any
+    kind: string;
+    sku: string;
+    item_id: string;
+    type: string;
+    state: string;
+    prices: GoogleIAPProductPrice[];
+    localeDate: any;
 }
 
 declare interface GoogleIAPSKUDetails {
-    kind: string,
+    kind: string;
     inAppProducts: GoogleIAPProduct[];
 }
 
 declare interface GoogleIAPSKUDetailsResponse {
     response: {
-        details: GoogleIAPSKUDetails
-    }
+        details: GoogleIAPSKUDetails;
+    };
 }
 
 declare interface GoogleIAPPurchase {
-    kind: string,
-    itemId: string,
-    sku: string,
-    createdTime: string,
-    state: string
+    kind: string;
+    itemId: string;
+    sku: string;
+    createdTime: string;
+    state: string;
 }
 
 declare interface GoogleIAPBuyResponse {
-    jwt: string,
+    jwt: string;
     request: {
-        cartId: string
-    },
+        cartId: string;
+    };
     response: {
-        orderId: string
-    }
+        orderId: string;
+    };
 }

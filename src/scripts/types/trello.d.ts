@@ -1,8 +1,8 @@
 declare interface TrelloAction<T> {
     id: string;
-    type: string, // and a bunch of other things but I dont want to put them all in
-    data: T,
-    isLocal?: boolean,
+    type: string; // and a bunch of other things but I dont want to put them all in
+    data: T;
+    isLocal?: boolean;
     // a bunch of other stuff here but cant be bothered to list
 }
 
@@ -35,15 +35,15 @@ declare interface TrelloBoard {
 }
 
 declare interface TrelloCommentAction extends TrelloAction<TrelloComment> {
-    type: "cardComment",
-    memberCreator: TrelloMember,
+    type: "cardComment";
+    memberCreator: TrelloMember;
     date: string;
 }
 
 declare interface TrelloComment {
-    board: { id: string }
-    card: { id: string }
-    text: string
+    board: { id: string };
+    card: { id: string };
+    text: string;
 }
 
 declare interface TrelloMember {

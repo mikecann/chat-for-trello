@@ -1,20 +1,20 @@
-import * as React from 'react';
-import { observer, inject } from 'mobx-react';
+import * as React from "react";
+import { observer, inject } from "mobx-react";
 
-interface Props {
-}
+interface Props {}
 
 @observer
-export class ChatWindowDragHandle extends React.Component<Props, {}>
-{
+export class ChatWindowDragHandle extends React.Component<Props, {}> {
     render() {
-        return <div
-            className="chat-window-drag-handle"
-            style={{
-                width: "100%",
-                height: 10,
-                cursor: "move"
-            }}
-            ></div>
+        return (
+            <div
+                className="chat-window-drag-handle"
+                style={{
+                    width: "100%",
+                    height: 10,
+                    cursor: "move"
+                }}
+            />
+        );
     }
 }

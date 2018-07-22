@@ -1,7 +1,7 @@
-import { action, observable, autorun, IReactionDisposer, toJS, runInAction } from 'mobx';
-import { IPersistanceService } from '../../services/IPersistanceService';
-import { ILogger } from 'mikeysee-helpers';
-import { WindowDimensions } from './WindowDimensions';
+import { action, observable, autorun, IReactionDisposer, toJS, runInAction } from "mobx";
+import { IPersistanceService } from "../../services/IPersistanceService";
+import { ILogger } from "mikeysee-helpers";
+import { WindowDimensions } from "./WindowDimensions";
 
 export type BoardSettings = typeof defaultSettings;
 
@@ -14,25 +14,29 @@ const defaultSettings = {
         x: 0,
         y: -300
     }
-}
+};
 
 export class BoardSettingsStore {
-
-    @observable settings: BoardSettings = {...defaultSettings};
+    @observable settings: BoardSettings = { ...defaultSettings };
 
     private autorunDisposer: IReactionDisposer;
 
-    constructor(private boardId: string, private persistance: IPersistanceService, private logger: ILogger) {
-    }
+    constructor(
+        private boardId: string,
+        private persistance: IPersistanceService,
+        private logger: ILogger
+    ) {}
 
-    @action async init() {
+    @action
+    async init() {
         this.beginPersistingChanges();
         var settings = await this.persistance.load(this.persistanceKey, defaultSettings);
         this.logger.debug("Board settings depersisted", settings);
-        runInAction(() => this.settings = {...defaultSettings, ...settings});        
+        runInAction(() => (this.settings = { ...defaultSettings, ...settings }));
     }
 
-    @action toggleEnabled() {
+    @action
+    toggleEnabled() {
         this.settings.isEnabled = !this.settings.isEnabled;
         if (this.settings.isEnabled) {
             this.settings.isChatWindowMinimised = defaultSettings.isChatWindowMinimised;
@@ -40,7 +44,8 @@ export class BoardSettingsStore {
         }
     }
 
-    @action toggleChatWindowMinimised() {
+    @action
+    toggleChatWindowMinimised() {
         this.settings.isChatWindowMinimised = !this.settings.isChatWindowMinimised;
     }
 
@@ -49,18 +54,17 @@ export class BoardSettingsStore {
     }
 
     private beginPersistingChanges() {
-        this.autorunDisposer = autorun(() => {           
+        this.autorunDisposer = autorun(() => {
             this.persistance.save(this.persistanceKey, toJS(this.settings));
-        })
+        });
     }
 
-    @action setChatWindowDimensions(dimensions: WindowDimensions) {
+    @action
+    setChatWindowDimensions(dimensions: WindowDimensions) {
         this.settings.chatWindowDimensions = dimensions;
     }
 
     dispose() {
-        if (this.autorunDisposer)
-            this.autorunDisposer();
+        if (this.autorunDisposer) this.autorunDisposer();
     }
-   
 }

@@ -1,29 +1,26 @@
-import * as React from 'react';
-import { ChatMessage } from './ChatMessage';
-import { observer, inject } from 'mobx-react';
-import { ChatStore } from '../../stores/ChatStore';
-import { AppSettingsModel } from '../../../models/AppSettingsModel';
+import * as React from "react";
+import { ChatMessage } from "./ChatMessage";
+import { observer, inject } from "mobx-react";
+import { ChatStore } from "../../stores/ChatStore";
+import { AppSettingsModel } from "../../../models/AppSettingsModel";
 
 interface ChatPopupBodyProps {
-    store: ChatStore,
-    appSettings?: AppSettingsModel
+    store: ChatStore;
+    appSettings?: AppSettingsModel;
 }
 
 @inject("appSettings")
 @observer
 export class ChatWindowBody extends React.Component<ChatPopupBodyProps, {}> {
-
     private messagesEnd: HTMLDivElement | null;
 
     scrollToBottom = () => {
-        if (!this.messagesEnd)
-            return;
+        if (!this.messagesEnd) return;
 
-        if (!this.props.appSettings!.settings.autoScrollChatWindow)
-            return;
+        if (!this.props.appSettings!.settings.autoScrollChatWindow) return;
 
         this.messagesEnd.scrollIntoView({ behavior: "smooth" });
-    }
+    };
 
     componentDidMount() {
         this.scrollToBottom();
@@ -35,22 +32,18 @@ export class ChatWindowBody extends React.Component<ChatPopupBodyProps, {}> {
 
     render() {
         var actions = this.props.store.filteredHistory;
-        return <div
-            style={{
-                padding: 5,
-                background: "#edeff0",
-                flex: 1,
-                overflowY: "scroll"
-            }}
-        >
-            <ul>
-                {
-                    actions.map(a => <ChatMessage
-                        key={a.id}
-                        action={a} />)
-                }
-            </ul>
-            <div style={{ float: "left", clear: "both" }} ref={el => this.messagesEnd = el} />
-        </div>;
+        return (
+            <div
+                style={{
+                    padding: 5,
+                    background: "#edeff0",
+                    flex: 1,
+                    overflowY: "scroll"
+                }}
+            >
+                <ul>{actions.map(a => <ChatMessage key={a.id} action={a} />)}</ul>
+                <div style={{ float: "left", clear: "both" }} ref={el => (this.messagesEnd = el)} />
+            </div>
+        );
     }
 }

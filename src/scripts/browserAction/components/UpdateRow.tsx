@@ -7,16 +7,19 @@ interface UpdateRowProps extends React.Props<any> {
 }
 
 export class UpdateRow extends React.Component<UpdateRowProps, {}> {
-
     rawMarkup() {
         var rawMarkup = marked(this.props.update.notes, { sanitize: false });
         return { __html: rawMarkup };
     }
 
     render() {
-        return <div>
-            <h2 className="update-title">New in {this.props.update.version} ({this.props.update.date}) </h2>
-            <p dangerouslySetInnerHTML={this.rawMarkup()} />
-        </div>;
+        return (
+            <div>
+                <h2 className="update-title">
+                    New in {this.props.update.version} ({this.props.update.date}){" "}
+                </h2>
+                <p dangerouslySetInnerHTML={this.rawMarkup()} />
+            </div>
+        );
     }
-} 
+}

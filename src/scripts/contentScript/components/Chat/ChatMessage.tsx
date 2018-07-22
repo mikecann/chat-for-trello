@@ -1,80 +1,83 @@
-import * as React from 'react';
-import { observer } from 'mobx-react';
-import { Comment } from 'semantic-ui-react';
+import * as React from "react";
+import { observer } from "mobx-react";
+import { Comment } from "semantic-ui-react";
 import * as moment from "moment";
-import { ChatMessageAvatar } from './ChatMessageAvatar';
-import { observable, action } from 'mobx';
+import { ChatMessageAvatar } from "./ChatMessageAvatar";
+import { observable, action } from "mobx";
 
 interface Props {
-    action: TrelloCommentAction
+    action: TrelloCommentAction;
 }
 
 @observer
-export class ChatMessage extends React.Component<Props, {}>
-{
+export class ChatMessage extends React.Component<Props, {}> {
     @observable isMouseOver: boolean = false;
 
-    @action onMouseOver = () => this.isMouseOver = true;
-    @action onMouseOut = () => this.isMouseOver = false;
+    @action onMouseOver = () => (this.isMouseOver = true);
+    @action onMouseOut = () => (this.isMouseOver = false);
 
     render() {
         const action = this.props.action;
-        return <li
-            onMouseOver={this.onMouseOver}
-            onMouseOut={this.onMouseOut}
-            style={{
-                position: "relative",
-                minHeight: 30,
-                display: "block",
-                padding: 5,
-            }}
-        >
-            <div
+        return (
+            <li
+                onMouseOver={this.onMouseOver}
+                onMouseOut={this.onMouseOut}
                 style={{
-                    left: 5,
-                    top: 7,
-                    position: "absolute",
-                    width: 30,
-                    height: 30,
+                    position: "relative",
+                    minHeight: 30,
+                    display: "block",
+                    padding: 5
                 }}
             >
-                <ChatMessageAvatar member={action.memberCreator} />
-            </div>
-            <div
-                style={{
-                    marginLeft: 40,
-                    wordWrap: "break-word",
-                }}
+                <div
+                    style={{
+                        left: 5,
+                        top: 7,
+                        position: "absolute",
+                        width: 30,
+                        height: 30
+                    }}
                 >
-
-                <div>
-                    <span style={{
-                        fontWeight: "bold"
-                    }}>
-                        {action.memberCreator.fullName}
-                    </span>
-
-                    <span style={{
-                        fontSize: 10,
-                        color: "grey",
-                        paddingLeft: 6
-                        //visibility: this.isMouseOver ? "visible" : "hidden"
-                    }}>
-                        {moment(action.date).fromNow()}
-                    </span>
+                    <ChatMessageAvatar member={action.memberCreator} />
                 </div>
                 <div
-                    className="action-comment"
                     style={{
-                        padding: "9px 11px",
-	                    cursor: "auto"
+                        marginLeft: 40,
+                        wordWrap: "break-word"
                     }}
+                >
+                    <div>
+                        <span
+                            style={{
+                                fontWeight: "bold"
+                            }}
+                        >
+                            {action.memberCreator.fullName}
+                        </span>
+
+                        <span
+                            style={{
+                                fontSize: 10,
+                                color: "grey",
+                                paddingLeft: 6
+                                //visibility: this.isMouseOver ? "visible" : "hidden"
+                            }}
+                        >
+                            {moment(action.date).fromNow()}
+                        </span>
+                    </div>
+                    <div
+                        className="action-comment"
+                        style={{
+                            padding: "9px 11px",
+                            cursor: "auto"
+                        }}
                     >
-                    <p>{action.data.text}</p>
+                        <p>{action.data.text}</p>
+                    </div>
                 </div>
-            </div>
-            
-        </li>;
+            </li>
+        );
 
         // <Comment>
         //     <Comment.Avatar as={ChatMessageAvatar} member={action.memberCreator} />
@@ -88,7 +91,8 @@ export class ChatMessage extends React.Component<Props, {}>
         //     </Comment.Content>
         // </Comment>
 
-        {/*
+        {
+            /*
         <div class="phenom mod-comment-type">
     <div class="phenom-creator">
         <div class="member js-show-mem-menu" idmember="53708ee03fb4a5df3ded2cb7">
@@ -153,6 +157,7 @@ export class ChatMessage extends React.Component<Props, {}>
         </div>
     </div>
 </div>
-        */}
+        */
+        }
     }
 }

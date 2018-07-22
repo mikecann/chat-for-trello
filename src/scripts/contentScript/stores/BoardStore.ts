@@ -5,7 +5,6 @@ import { ChatStore } from "./ChatStore";
 import { BoardSettingsStore } from "./BoardSettingsStore";
 
 export class BoardStore {
-
     @observable id: string;
     @observable chat: ChatStore;
     @observable settings: BoardSettingsStore;
@@ -14,7 +13,7 @@ export class BoardStore {
         private logger: ILogger,
         private board: TrelloBoard,
         private factory: StoresFactory
-    ){
+    ) {
         this.id = board.id;
         this.chat = factory.createChat(this);
         this.settings = factory.createBoardSettings(this.id);

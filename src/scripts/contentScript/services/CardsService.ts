@@ -1,18 +1,16 @@
 ﻿import { ILogger } from "mikeysee-helpers";
-import { ServiceHelpers } from '../../helpers/ServiceHelpers';
-import { GetBatchService } from './GetBatchService';
-import { constructURL } from '../../helpers/utils';
+import { ServiceHelpers } from "../../helpers/ServiceHelpers";
+import { GetBatchService } from "./GetBatchService";
+import { constructURL } from "../../helpers/utils";
 
 export class CardsService {
-
     constructor(
-        private logger: ILogger, 
-        private helpers: ServiceHelpers, 
+        private logger: ILogger,
+        private helpers: ServiceHelpers,
         private batchService: GetBatchService
     ) {}
 
     getComments(id: string, options: any): Promise<TrelloCommentAction[]> {
-
         this.logger.debug("CardService Loading card comments for card", id);
 
         var url = constructURL("https://trello.com/1/cards/" + id + "/actions", options);
@@ -21,9 +19,8 @@ export class CardsService {
     }
 
     addComment(id: string, msg: string): Promise<boolean> {
-        
         var data = { text: msg };
-        this.logger.debug("CardService Adding comment to card", id, '"'+msg+'"', data);
+        this.logger.debug("CardService Adding comment to card", id, '"' + msg + '"', data);
 
         var url = "https://trello.com/1/cards/" + id + "/actions/comments";
 
