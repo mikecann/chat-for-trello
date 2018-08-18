@@ -1,23 +1,16 @@
 import * as React from "react";
 import { observer, inject } from "mobx-react";
-import { ILogger } from "mikeysee-helpers";
 import { Modal, Button, Icon } from "semantic-ui-react";
-import { PageAuthModel } from "../../models/AuthModel";
 
 interface Props {
-    logger?: ILogger;
     isOpen: boolean;
-    auth?: PageAuthModel;
     onClose: () => void;
 }
 
-@inject("logger", "auth")
 @observer
 export class CancelMembershipModal extends React.Component<Props, {}> {
     onConfirm = async () => {
-        chrome.tabs.create({
-            url: "https://payments.google.com/payments/u/0/home"
-        });
+        chrome.tabs.create({ url: "https://payments.google.com/payments/u/0/home" });
         this.props.onClose();
     };
 

@@ -1,12 +1,12 @@
-﻿import { ILogger } from "mikeysee-helpers";
-import { ServiceHelpers } from "../../helpers/ServiceHelpers";
-import { GetBatchService } from "./GetBatchService";
-import { constructURL } from "../../helpers/utils";
+﻿import { GetBatchService } from "./GetBatchService";
+import { ILogger } from "../../lib/logging/types";
+import { HttpHelpers } from "../../lib/http/HttpHelpers";
+import { constructURL } from "../../common/utils";
 
 export class CardsService {
     constructor(
         private logger: ILogger,
-        private helpers: ServiceHelpers,
+        private helpers: HttpHelpers,
         private batchService: GetBatchService
     ) {}
 

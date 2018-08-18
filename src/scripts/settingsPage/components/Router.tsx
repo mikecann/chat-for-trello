@@ -1,14 +1,14 @@
 import * as React from "react";
 import { observer, inject } from "mobx-react";
-import { ILogger } from "mikeysee-helpers";
 import { HashRouter, Route, Switch } from "react-router-dom";
 import { General } from "../pages/general/General";
-import { Logging } from "../pages/Logging";
-import { Errors } from "../pages/Errors";
-import { Suggest } from "../pages/Suggest";
-import { Privacy } from "../pages/Privacy";
-import { Premium } from "../pages/Premium";
-import { Notifications } from "../pages/Notifications";
+import { Errors } from "../pages/errors/Errors";
+import { Suggest } from "../pages/suggest/Suggest";
+import { Privacy } from "../pages/privacy/Privacy";
+import { Notifications } from "../pages/notifications/Notifications";
+import { ILogger } from "../../lib/logging/types";
+import { Logging } from "../pages/logging/Logging";
+import { Premium } from "../pages/Premium/Premium";
 
 interface Props {
     logger?: ILogger;
@@ -23,7 +23,6 @@ export class Router extends React.Component<Props, {}> {
                 <HashRouter>
                     <Switch>
                         <Route path="/general" component={General} />
-                        <Route path="/lists" component={Notifications} />
                         <Route path="/logging" component={Logging} />
                         <Route path="/errors" component={Errors} />
                         <Route path="/suggest" component={Suggest} />

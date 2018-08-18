@@ -1,18 +1,19 @@
 import * as React from "react";
 import { DOMWatcher } from "../helpers/DOMWatcher";
-import { ILogger } from "mikeysee-helpers";
 import { Board } from "./Board";
 import { observer, inject } from "mobx-react";
-import { StoresFactory } from "../helpers/StoresFactory";
-import { AppSettingsModel } from "../../models/AppSettingsModel";
 import { PageStore } from "../stores/PageStore";
+import { ILogger } from "../../lib/logging/types";
+import { StoresFactory } from "../helpers/StoresFactory";
+import { AppSettingsStore } from "../../lib/settings/AppSettingsStore";
+import { AppSettings } from "../../common/config";
 
 interface Props {
     factory?: StoresFactory;
     logger?: ILogger;
-    model: PageStore;
+    page: PageStore;
     element: HTMLElement;
-    appSettings?: AppSettingsModel;
+    settings?: AppSettingsStore<AppSettings>;
 }
 
 type BoardDetails = {
@@ -20,9 +21,7 @@ type BoardDetails = {
     element: HTMLElement;
 };
 
-@inject("logger")
-@inject("factory")
-@inject("appSettings")
+@inject("logger", "factory", "settings")
 @observer
 export class Page extends React.Component<Props, {}> {
     private watcher: DOMWatcher;
@@ -43,7 +42,7 @@ export class Page extends React.Component<Props, {}> {
     private watchForBoardChanges() {
         this.props.logger!.debug(`Page starting to watch for board changes..`);
         this.watcher = new DOMWatcher(this.props.logger!);
-        this.watcher.elementAdded.add(this.onBoardElementAdded, this);
+        this.watcher.elementAdded = this.onBoardElementAdded;
 
         const contentEl = this.props.element.querySelector("#content");
         if (!contentEl)
@@ -58,7 +57,7 @@ export class Page extends React.Component<Props, {}> {
         });
     }
 
-    private onBoardElementAdded(el: HTMLElement) {
+    private onBoardElementAdded = (el: HTMLElement) => {
         var board = this.findBoard();
         if (!board)
             throw new Error(
@@ -70,10 +69,12 @@ export class Page extends React.Component<Props, {}> {
             board
         );
         this.setBoard(board);
-    }
+    };
 
     private async setBoard(board: BoardDetails) {
-        this.props.model.loadBoard(board.id);
+        // var model = await this.props.factory!.createBoard(board.id, this.props.model);
+        // await model.init();
+        this.props.page.loadBoard(board.id);
     }
 
     private findBoard(): BoardDetails | null {
@@ -103,13 +104,13 @@ export class Page extends React.Component<Props, {}> {
     }
 
     render() {
-        const { model } = this.props;
+        const { page } = this.props;
 
-        if (!model.board) return null;
+        if (!page.board) return null;
 
         var boardElement = this.findBoardElement();
         if (!boardElement) return null;
 
-        return <Board element={boardElement} key={model.board.id} board={model.board!} />;
+        return <Board element={boardElement} key={page.board.id} board={page.board!} />;
     }
 }

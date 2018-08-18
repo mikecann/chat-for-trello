@@ -1,7 +1,7 @@
-import { ILogger } from "mikeysee-helpers";
-import { setProps } from "../helpers/utils";
 import { runInAction } from "mobx";
 import { PageStore } from "../contentScript/stores/PageStore";
+import { ILogger } from "../lib/logging/types";
+import { setProps } from "../common/utils";
 
 interface InterceptedData {
     request: {

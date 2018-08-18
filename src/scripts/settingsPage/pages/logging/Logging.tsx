@@ -1,24 +1,23 @@
 import * as React from "react";
 import { observer, inject } from "mobx-react";
-import { ILogger } from "mikeysee-helpers";
 import { Header, Segment, Form, Dropdown, Button, Icon } from "semantic-ui-react";
-import { AppSettingsModel } from "../../models/AppSettingsModel";
-import { LogLevel } from "../../helpers/Logging";
-import { LogMessagesFromExtensionModel } from "../../models/LogMessagesFromExtensionModel";
-import { observable, runInAction, action } from "mobx";
-import { LogEntriesTable } from "../components/LogEntriesTable";
-import { Page } from "../components/Page";
-import { SettingsSaveButton } from "../components/SettingsSaveButton";
-import { SaveButton } from "../components/SaveButton";
-import { BackgroundPage } from "../../background/background";
-import { waitForMilliseconds } from "../../helpers/utils";
+import { observable, action } from "mobx";
+import { LogEntriesTable } from "./LogEntriesTable";
+import { Page } from "../../components/Page";
+import { SaveButton } from "../../components/SaveButton";
+import { AppSettings } from "../../../common/config";
+import { waitForMilliseconds } from "../../../common/utils";
+import { ILogger, LogLevel } from "../../../lib/logging/types";
+import { AppSettingsStore } from "../../../lib/settings/AppSettingsStore";
+import { LogsStore } from "../../../lib/logging/LogsStore";
+import { Extension } from "../../../lib/extension/Extension";
 
 interface Props {
     logger?: ILogger;
     location: Location;
-    model: AppSettingsModel;
-    logsModel: LogMessagesFromExtensionModel;
-    background?: BackgroundPage;
+    settings: AppSettingsStore<AppSettings>;
+    logs: LogsStore;
+    extension: Extension;
 }
 
 const loggingLevelOptions = [
@@ -39,26 +38,27 @@ const loggingLevelOptions = [
         value: "error"
     }
 ];
-@inject("logger", "model", "logsModel", "background")
+
+@inject("logger", "settings", "logs", "extension")
 @observer
 export class Logging extends React.Component<Props, {}> {
     @observable logEntriesTableVisible = false;
 
-    @action
     onLogLevelChanged = (e: any, { value }: { value: LogLevel }) =>
-        (this.props.model.settings.logLevel = value);
+        this.props.settings.update({ logLevel: value });
 
-    onDownloadLogsClicked = () => this.props.logsModel.download();
+    onDownloadLogsClicked = () => this.props.logs.download();
 
+    @action
     toggleLogEntriesTableVisible = () =>
         (this.logEntriesTableVisible = !this.logEntriesTableVisible);
 
     onSave = () => {
         if (!confirm("Changing the log level will restart the extension.")) return false;
 
-        this.props.model.persist().then(async () => {
-            await waitForMilliseconds(500);
-            this.props.background!.restart();
+        this.props.settings.commit();
+        waitForMilliseconds(250).then(() => {
+            this.props.extension.sendReboot();
             window.close();
         });
 
@@ -66,8 +66,9 @@ export class Logging extends React.Component<Props, {}> {
     };
 
     render() {
-        const { model, logsModel } = this.props;
-        const settings = model.settings;
+        const settingsStore = this.props.settings;
+        const settings = settingsStore.settings;
+        const logs = this.props.logs;
 
         return (
             <Page location={this.props.location}>
@@ -86,7 +87,7 @@ export class Logging extends React.Component<Props, {}> {
                             />
                         </Form.Field>
 
-                        <SaveButton needsSave={model.isDirty} onSave={this.onSave} />
+                        <SaveButton needsSave={settingsStore.isDirty} onSave={this.onSave} />
                     </Form>
                 </Segment>
                 <Segment>
@@ -104,7 +105,7 @@ export class Logging extends React.Component<Props, {}> {
                         </Button>
                     )}
 
-                    <Button onClick={() => logsModel.clear()}>
+                    <Button onClick={() => logs.clear()}>
                         <Icon name="trash" /> Clear
                     </Button>
 
@@ -114,10 +115,7 @@ export class Logging extends React.Component<Props, {}> {
 
                     {this.logEntriesTableVisible ? (
                         <Form style={{ marginTop: 20 }}>
-                            <LogEntriesTable
-                                style={{ minHeight: 500 }}
-                                messages={logsModel.messages}
-                            />
+                            <LogEntriesTable style={{ minHeight: 500 }} entries={logs.entries} />
                         </Form>
                     ) : null}
                 </Segment>

@@ -2,24 +2,32 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { Page } from "./components/Page";
 import { Provider } from "mobx-react";
-import { ChromeService } from "../services/ChromeService";
-import { BrowserActionModel } from "./models/BrowserActionModel";
-import { UpdatesLoader } from "../helpers/UpdatesLoader";
-import { setupStandardLogging, addLiveReloadIfDevMode } from "../helpers/utils";
+import { logPageStartup, sendLogsToExtension, logUnhandledErrors } from "../common/logging";
+import { BrowserActionStore } from "./stores/BrowserActionStore";
+import { configure } from "mobx";
+import { chromeService, bus, aggregateLogger, logger, trunk, extension } from "../common/common";
+import { UpdatesLoader } from "../lib/updates/UpdatesLoader";
+import { UpdatesStore } from "../lib/updates/UpdatesStore";
+
+const pageName = "BrowserAction";
 
 async function init() {
-    // Construct dependencies
-    const logger = await setupStandardLogging("Browser Action");
-    const chromeService = new ChromeService();
-    const model = new BrowserActionModel(chromeService);
+    const store = new BrowserActionStore(chromeService);
+    const updates = new UpdatesStore();
 
-    // Init
-    model.init(new UpdatesLoader());
-    addLiveReloadIfDevMode();
+    configure({ enforceActions: true });
+
+    sendLogsToExtension(aggregateLogger, pageName, bus);
+    logUnhandledErrors(logger);
+    logPageStartup(aggregateLogger, pageName, chromeService);
+
+    await trunk.init();
+    await updates.loadUpdates(new UpdatesLoader());
+    extension.handleReboot();
 
     ReactDOM.render(
-        <Provider logger={logger}>
-            <Page model={model} />
+        <Provider {...{ store, updates, logger }}>
+            <Page />
         </Provider>,
         document.getElementById("root")
     );

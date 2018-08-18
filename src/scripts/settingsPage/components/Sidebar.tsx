@@ -1,17 +1,14 @@
 import * as React from "react";
 import { observer, inject } from "mobx-react";
-import { ILogger } from "mikeysee-helpers";
 import { Menu, Grid, Image, Header } from "semantic-ui-react";
 import { Socials } from "../../components/Socials";
 import { Link } from "react-router-dom";
 import { SidebarPremiumButton } from "./SidebarPremiumButton";
 
 interface Props {
-    logger?: ILogger;
     location: Location;
 }
 
-@inject("logger")
 @observer
 export class Sidebar extends React.Component<Props, {}> {
     handleItemClick = () => {};
@@ -20,19 +17,13 @@ export class Sidebar extends React.Component<Props, {}> {
         const location = this.props.location.pathname;
 
         return (
-            <div
-                style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    height: "100%"
-                }}
-            >
+            <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
                 <div style={{ marginTop: 10 }}>
                     <Grid verticalAlign="middle">
                         <Grid.Row>
                             <Grid.Column width={5}>
                                 <Image
-                                    src="images/logo-128x128-inverted.png"
+                                    src="images/logo-128x128.png"
                                     floated="right"
                                     width={64}
                                     style={{ marginLeft: 0 }}
@@ -59,7 +50,13 @@ export class Sidebar extends React.Component<Props, {}> {
                             active={location === "/" || location === "/general"}
                             onClick={this.handleItemClick}
                         />
-                        {/* <Menu.Item as={Link} to="/notifications" name='notifications' active={location === '/notifications'} onClick={this.handleItemClick} /> */}
+                        {/* <Menu.Item
+                            as={Link}
+                            to="/lists"
+                            name="lists"
+                            active={location === "/lists"}
+                            onClick={this.handleItemClick}
+                        /> */}
                         <Menu.Item
                             as={Link}
                             to="/logging"
@@ -93,7 +90,7 @@ export class Sidebar extends React.Component<Props, {}> {
 
                 <div style={{ flex: 1 }} />
 
-                {/* <SidebarPremiumButton /> */}
+                <SidebarPremiumButton />
             </div>
         );
     }

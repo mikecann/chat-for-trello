@@ -1,5 +1,5 @@
 ﻿import { UpdateRow } from "./UpdateRow";
-import { Update } from "../../helpers/UpdatesLoader";
+import { Update } from "../../lib/updates/UpdatesLoader";
 import React = require("react");
 
 interface UpdatesProps extends React.Props<any> {

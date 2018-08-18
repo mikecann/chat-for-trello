@@ -1,13 +1,3 @@
-import { ILogger, AggregateLogger, ConsoleLogger } from "mikeysee-helpers";
-import { AppSettingsModel, AppSettings } from "../models/AppSettingsModel";
-import { LogFilter, FilteredLogger } from "./FilteredLogger";
-import { LogLevel } from "./Logging";
-import { BackgroundPage } from "../background/background";
-import { ExtensionMessagingLogger, LogMessage } from "./ExtensionMessagingLogger";
-import { ChromeService } from "../services/ChromeService";
-import { toJS } from "mobx";
-import { LogMessagesFromExtensionModel } from "../models/LogMessagesFromExtensionModel";
-
 export function waitForMilliseconds(ms: number): Promise<void> {
     return new Promise<void>((resolve, reject) => {
         setTimeout(resolve, ms);
@@ -95,13 +85,13 @@ export function getANewIdForComment(card: TrelloCard, board: TrelloBoard): strin
 
 export function calculateCurrentTaskStatusFromComments(comments: TrelloComment[]): boolean {
     for (let comment of comments) {
-        if (comment.text.indexOf("TrelloChat! task completed") != -1) return true;
+        if (comment.text.indexOf("TrelloTasks! task completed") != -1) return true;
 
-        if (comment.text.indexOf("ChatForTrello! task completed") != -1) return true;
+        if (comment.text.indexOf("TasksForTrello! task completed") != -1) return true;
 
-        if (comment.text.indexOf("TrelloChat! task uncompleted") != -1) return false;
+        if (comment.text.indexOf("TrelloTasks! task uncompleted") != -1) return false;
 
-        if (comment.text.indexOf("ChatForTrello! task uncompleted") != -1) return false;
+        if (comment.text.indexOf("TasksForTrello! task uncompleted") != -1) return false;
     }
     return false;
 }
@@ -118,59 +108,43 @@ export function idToDate(id: string): Date {
     return new Date(1000 * parseInt(id.substring(0, 8), 16));
 }
 
-export function logUnhandledErrors(logger: ILogger) {
-    window.addEventListener("error", e => {
-        console.error("Unhandled Error occurred", e);
+// const shouldLog: { [key: string]: LogLevel[] } = {
+//     debug: ["debug", "info", "warn", "error"],
+//     info: ["info", "warn", "error"],
+//     warn: ["warn", "error"],
+//     error: ["error"]
+// };
 
-        logger.error("Unhandled error", {
-            column: e.colno,
-            message: e.message,
-            line: e.lineno,
-            stack: e.error ? e.error.stack : undefined,
-            filename: e.filename
-        });
+// export function createAppSettingsLogFilter(appSettings: AppSettings): LogFilter {
+//     return (level, area) => shouldLog[appSettings.logLevel].indexOf(level) != -1;
+// }
 
-        return false;
-    });
-}
+// export function createBackgroundAppSettingsLogFilter(background: BackgroundPage): LogFilter {
+//     return (level, area) =>
+//         background.appSettings
+//             ? shouldLog[background.appSettings.settings.logLevel].indexOf(level) != -1
+//             : true;
+// }
 
-const shouldLog: { [key: string]: LogLevel[] } = {
-    debug: ["debug", "info", "warn", "error"],
-    info: ["info", "warn", "error"],
-    warn: ["warn", "error"],
-    error: ["error"]
-};
-
-export function createAppSettingsLogFilter(appSettings: AppSettings): LogFilter {
-    return (level, area) => shouldLog[appSettings.logLevel].indexOf(level) != -1;
-}
-
-export function createBackgroundAppSettingsLogFilter(background: BackgroundPage): LogFilter {
-    return (level, area) =>
-        background.appSettings
-            ? shouldLog[background.appSettings.settings.logLevel].indexOf(level) != -1
-            : true;
-}
-
-export async function setupStandardLogging(
-    pageName: string,
-    logSender?: (msg: LogMessage) => void
-): Promise<ILogger> {
-    const service = new ChromeService();
-    const background = await service.getBackgroundPage<BackgroundPage>();
-    const aggregateLogger = new AggregateLogger();
-    aggregateLogger.loggers = [
-        new ConsoleLogger(),
-        new ExtensionMessagingLogger(pageName, logSender || chrome.runtime.sendMessage)
-    ];
-    const logger = new FilteredLogger(aggregateLogger);
-    logUnhandledErrors(logger);
-    logger.filter = createBackgroundAppSettingsLogFilter(background);
-    logger.info(`Chat for Trello v${service.appVersion} starting up ${pageName}`, {
-        env: process.env
-    });
-    return logger;
-}
+// export async function setupStandardLogging(
+//     pageName: string,
+//     logSender?: (msg: LogMessage) => void
+// ): Promise<ILogger> {
+//     const service = new ChromeService();
+//     const background = await service.getBackgroundPage<BackgroundPage>();
+//     const aggregateLogger = new AggregateLogger();
+//     aggregateLogger.loggers = [
+//         new ConsoleLogger(),
+//         new ForwardingLogger(pageName, logSender || chrome.runtime.sendMessage)
+//     ];
+//     const logger = new FilteredLogger(aggregateLogger);
+//     logUnhandledErrors(logger);
+//     logger.filter = createBackgroundAppSettingsLogFilter(background);
+//     logger.info(`Tasks for Trello v${service.appVersion} starting up ${pageName}`, {
+//         env: process.env
+//     });
+//     return logger;
+// }
 
 export const isDevMode = process.env.NODE_ENV == "development";
 

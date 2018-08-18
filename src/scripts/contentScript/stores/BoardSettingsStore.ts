@@ -1,7 +1,7 @@
 import { action, observable, autorun, IReactionDisposer, toJS, runInAction } from "mobx";
-import { IPersistanceService } from "../../services/IPersistanceService";
-import { ILogger } from "mikeysee-helpers";
 import { WindowDimensions } from "./WindowDimensions";
+import { IPersistanceService } from "../../lib/persistance/IPersistanceService";
+import { ILogger } from "../../lib/logging/types";
 
 export type BoardSettings = typeof defaultSettings;
 

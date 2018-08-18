@@ -1,11 +1,12 @@
 import * as React from "react";
 import { observer, inject } from "mobx-react";
 import { Checkbox, CheckboxProps, Form, Dropdown } from "semantic-ui-react";
-import { AppSettingsModel } from "../../../models/AppSettingsModel";
 import { action } from "mobx";
+import { AppSettingsStore } from "../../../lib/settings/AppSettingsStore";
+import { AppSettings } from "../../../common/config";
 
 interface Props {
-    model?: AppSettingsModel;
+    settings?: AppSettingsStore<AppSettings>;
 }
 
 const options = [
@@ -23,15 +24,17 @@ const options = [
     }
 ];
 
-@inject("model")
+@inject("settings")
 @observer
 export class MaxChatEntriesSetting extends React.Component<Props, {}> {
     @action
     onChange = (e: any, { value }: { value: number }) =>
-        (this.props.model!.settings.maxChatEntries = value);
+        this.props.settings!.update({
+            maxChatEntries: value
+        });
 
     render() {
-        const settings = this.props.model!.settings;
+        const settings = this.props.settings!.settings;
         return (
             <Form.Field>
                 <label>Maxiumum Chat Entries</label>

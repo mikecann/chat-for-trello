@@ -1,6 +1,6 @@
-﻿import { ILogger } from "mikeysee-helpers";
-import { ServiceHelpers } from "../../helpers/ServiceHelpers";
-import { constructURL } from "../../helpers/utils";
+﻿import { ILogger } from "../../lib/logging/types";
+import { HttpHelpers } from "../../lib/http/HttpHelpers";
+import { constructURL } from "../../common/utils";
 interface BatchedGetRequest {
     url: string;
     resolve: (data: any) => void;
@@ -12,7 +12,7 @@ export class GetBatchService {
     private queue: BatchedGetRequest[];
     private outgoingBatch: BatchedGetRequest[] | null;
 
-    constructor(private logger: ILogger, private serviceHelpers: ServiceHelpers) {
+    constructor(private logger: ILogger, private serviceHelpers: HttpHelpers) {
         this.queue = [];
         this.dispatchTimeout = -1;
     }

@@ -1,5 +1,4 @@
 import { BoardStore } from "./BoardStore";
-import { ILogger } from "mikeysee-helpers";
 import { StoresFactory } from "../helpers/StoresFactory";
 import { ChatService } from "../services/ChatService";
 import { observable, runInAction, action, toJS, computed } from "mobx";
@@ -8,8 +7,9 @@ import { ResizableDirection } from "re-resizable";
 import { ResizableDelta, Position } from "react-rnd";
 import { WindowDimensions } from "./WindowDimensions";
 import { DraggableData } from "react-draggable";
-import { AppSettingsModel } from "../../models/AppSettingsModel";
-import { ChatWindowOrder } from "../../models/ChatWindowOrder";
+import { ILogger } from "../../lib/logging/types";
+import { AppSettingsStore } from "../../lib/settings/AppSettingsStore";
+import { AppSettings, ChatWindowOrder } from "../../common/config";
 
 const minimisedHeight = 35;
 
@@ -22,7 +22,7 @@ export class ChatStore {
         private board: BoardStore,
         private factory: StoresFactory,
         private chatService: ChatService,
-        private appSettings: AppSettingsModel
+        private appSettings: AppSettingsStore<AppSettings>
     ) {}
 
     async init() {

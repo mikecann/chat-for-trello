@@ -1,6 +1,4 @@
 import * as React from "react";
-import { ILogger } from "mikeysee-helpers";
-import { toArray } from "../../helpers/utils";
 import { observer, inject } from "mobx-react";
 import { StoresFactory } from "../helpers/StoresFactory";
 import { Portal } from "./Portal";
@@ -10,6 +8,7 @@ import { PageStore } from "../stores/PageStore";
 import { BoardSettingsStore } from "../stores/BoardSettingsStore";
 import { BoardStore } from "../stores/BoardStore";
 import { ChatWindow } from "./Chat/ChatWindow";
+import { ILogger } from "../../lib/logging/types";
 
 interface Props {
     board: BoardStore;

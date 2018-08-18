@@ -1,6 +1,6 @@
-﻿import React = require("react");
+﻿import { Update } from "../../lib/updates/UpdatesLoader";
+import React = require("react");
 import marked = require("marked");
-import { Update } from "../../helpers/UpdatesLoader";
 
 interface UpdateRowProps extends React.Props<any> {
     update: Update;

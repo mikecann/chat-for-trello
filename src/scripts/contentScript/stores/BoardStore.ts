@@ -1,8 +1,8 @@
-import { ILogger } from "mikeysee-helpers";
 import { StoresFactory } from "../helpers/StoresFactory";
 import { observable } from "mobx";
 import { ChatStore } from "./ChatStore";
 import { BoardSettingsStore } from "./BoardSettingsStore";
+import { ILogger } from "../../lib/logging/types";
 
 export class BoardStore {
     @observable id: string;

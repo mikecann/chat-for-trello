@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { observer, inject } from "mobx-react";
-import { ILogger } from "mikeysee-helpers";
+import { ILogger } from "../../lib/logging/types";
 
 interface Props {
     logger?: ILogger;

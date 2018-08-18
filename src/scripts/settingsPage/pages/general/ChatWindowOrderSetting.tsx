@@ -1,12 +1,12 @@
 import * as React from "react";
 import { observer, inject } from "mobx-react";
-import { AppSettingsModel } from "../../../models/AppSettingsModel";
 import { action } from "mobx";
 import { Form, Dropdown } from "semantic-ui-react";
-import { ChatWindowOrder } from "../../../models/ChatWindowOrder";
+import { ChatWindowOrder, AppSettings } from "../../../common/config";
+import { AppSettingsStore } from "../../../lib/settings/AppSettingsStore";
 
 interface Props {
-    model?: AppSettingsModel;
+    settings?: AppSettingsStore<AppSettings>;
 }
 
 const options = [
@@ -20,15 +20,17 @@ const options = [
     }
 ];
 
-@inject("model")
+@inject("settings")
 @observer
 export class ChatWindowOrderSetting extends React.Component<Props, {}> {
     @action
     onChange = (e: any, { value }: { value: any }) =>
-        (this.props.model!.settings.chatWindowOrder = value);
+        this.props.settings!.update({
+            chatWindowOrder: value
+        });
 
     render() {
-        const settings = this.props.model!.settings;
+        const settings = this.props.settings!.settings;
         return (
             <Form.Field>
                 <label>Chat Window Order</label>

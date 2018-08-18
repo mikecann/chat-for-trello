@@ -2,14 +2,15 @@ import * as React from "react";
 import { ChatMessage } from "./ChatMessage";
 import { observer, inject } from "mobx-react";
 import { ChatStore } from "../../stores/ChatStore";
-import { AppSettingsModel } from "../../../models/AppSettingsModel";
+import { AppSettingsStore } from "../../../lib";
+import { AppSettings } from "../../../common/config";
 
 interface ChatPopupBodyProps {
     store: ChatStore;
-    appSettings?: AppSettingsModel;
+    settings?: AppSettingsStore<AppSettings>;
 }
 
-@inject("appSettings")
+@inject("settings")
 @observer
 export class ChatWindowBody extends React.Component<ChatPopupBodyProps, {}> {
     private messagesEnd: HTMLDivElement | null;
@@ -17,7 +18,7 @@ export class ChatWindowBody extends React.Component<ChatPopupBodyProps, {}> {
     scrollToBottom = () => {
         if (!this.messagesEnd) return;
 
-        if (!this.props.appSettings!.settings.autoScrollChatWindow) return;
+        if (!this.props.settings!.settings.autoScrollChatWindow) return;
 
         this.messagesEnd.scrollIntoView({ behavior: "smooth" });
     };

@@ -4378,12 +4378,6 @@ micromatch@^3.1.10, micromatch@^3.1.4, micromatch@^3.1.8, micromatch@^3.1.9:
     snapdragon "^0.8.1"
     to-regex "^3.0.2"
 
-mikeysee-helpers@^0.0.8:
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/mikeysee-helpers/-/mikeysee-helpers-0.0.8.tgz#7c3517cdb9d6110afb5e0d60a60b53ce2b060e77"
-  dependencies:
-    moment "^2.14.1"
-
 miller-rabin@^4.0.0:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/miller-rabin/-/miller-rabin-4.0.1.tgz#f080351c865b0dc562a8462966daa53543c78a4d"
@@ -4491,7 +4485,7 @@ mobx@^4.3.0:
   version "4.3.0"
   resolved "https://registry.yarnpkg.com/mobx/-/mobx-4.3.0.tgz#50a5e63fd0197a83c68166ff83ada45b65c859f8"
 
-moment@*, moment@^2.14.1, moment@^2.22.1:
+moment@*, moment@^2.22.1:
   version "2.22.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.1.tgz#529a2e9bf973f259c9643d237fda84de3a26e8ad"
 

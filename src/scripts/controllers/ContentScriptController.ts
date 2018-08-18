@@ -1,4 +1,4 @@
-import { ILogger } from "mikeysee-helpers";
+import { ILogger } from "../lib/logging/types";
 
 export interface Message<T> {
     type: string;

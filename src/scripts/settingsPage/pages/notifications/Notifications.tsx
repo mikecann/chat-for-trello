@@ -1,15 +1,13 @@
 import * as React from "react";
 import { observer, inject } from "mobx-react";
-import { ILogger } from "mikeysee-helpers";
-import { AppSettingsModel } from "../../models/AppSettingsModel";
+import { ILogger } from "../../../lib/logging/types";
 
 interface Props {
     logger?: ILogger;
     location: Location;
-    model?: AppSettingsModel;
 }
 
-@inject("logger", "model")
+@inject("logger")
 @observer
 export class Notifications extends React.Component<Props, {}> {
     render() {

@@ -1,17 +1,19 @@
 import * as React from "react";
 import { observer, inject } from "mobx-react";
 import { Segment, Header, Container, Menu, Image, Grid, Divider } from "semantic-ui-react";
-import { BrowserActionModel } from "../models/BrowserActionModel";
 import { Updates } from "./Updates";
 import { Socials } from "../../components/Socials";
-import { ILogger } from "mikeysee-helpers";
+import { BrowserActionStore } from "../stores/BrowserActionStore";
+import { UpdatesStore } from "../../lib/updates/UpdatesStore";
+import { ILogger } from "../../lib/logging/types";
 
 interface Props {
-    model: BrowserActionModel;
+    store?: BrowserActionStore;
+    updates?: UpdatesStore;
     logger?: ILogger;
 }
 
-@inject("logger")
+@inject("logger", "store", "updates")
 @observer
 export class Page extends React.Component<Props, {}> {
     onSettingsClicked = () => {
@@ -27,6 +29,7 @@ export class Page extends React.Component<Props, {}> {
     };
 
     render() {
+        const { updates, store } = this.props;
         return (
             <div>
                 <Segment vertical style={{ backgroundColor: "#007ac0", height: 80 }}>
@@ -42,7 +45,7 @@ export class Page extends React.Component<Props, {}> {
                                             fontSize: "2.2em"
                                         }}
                                     >
-                                        Chat for Trello v{this.props.model.appVersion}
+                                        Chat for Trello v{store!.appVersion}
                                     </Header>
                                     <Header.Subheader style={{ color: "#67c7ff" }}>
                                         by Mike Cann (<Socials />)
@@ -61,7 +64,7 @@ export class Page extends React.Component<Props, {}> {
                 </Segment>
                 <Segment style={{ minHeight: 400, borderBottom: "none" }} vertical>
                     <Container>
-                        <Updates updates={this.props.model.updates} />
+                        <Updates updates={updates!.updates} />
                     </Container>
                 </Segment>
                 <Divider fitted />

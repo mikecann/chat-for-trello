@@ -1,7 +1,6 @@
 import * as React from "react";
 import { observer } from "mobx-react";
 import { ChatStore } from "../../stores/ChatStore";
-import { Icon, Button, Label } from "semantic-ui-react";
 
 interface ChatPopupBodyProps {
     store: ChatStore;

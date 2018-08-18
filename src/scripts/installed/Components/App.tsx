@@ -1,7 +1,7 @@
 import * as React from "react";
-import { ILogger } from "mikeysee-helpers";
 import { observer, inject } from "mobx-react";
 import { Page } from "./Page";
+import { ILogger } from "../../lib/logging/types";
 
 interface Props {
     logger?: ILogger;

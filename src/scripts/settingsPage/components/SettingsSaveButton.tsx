@@ -1,26 +1,27 @@
 import * as React from "react";
 import { observer, inject } from "mobx-react";
-import { AppSettingsModel } from "../../models/AppSettingsModel";
 import { SaveButton } from "./SaveButton";
+import { AppSettings } from "../../common/config";
+import { AppSettingsStore } from "../../lib/settings/AppSettingsStore";
 
 interface Props {
-    model?: AppSettingsModel;
+    settings?: AppSettingsStore<AppSettings>;
 }
 
 interface State {
     shouldShowSaved: boolean;
 }
 
-@inject("model")
+@inject("settings")
 @observer
 export class SettingsSaveButton extends React.Component<Props, State> {
     save = () => {
-        this.props.model!.persist();
+        this.props.settings!.commit();
         return true;
     };
 
     render() {
-        const model = this.props.model!;
+        const model = this.props.settings!;
         return <SaveButton needsSave={model.isDirty} onSave={this.save} />;
     }
 }

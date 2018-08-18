@@ -1,31 +1,35 @@
 import * as React from "react";
 import { observer, inject } from "mobx-react";
-import { ILogger } from "mikeysee-helpers";
 import { Modal, Button, Icon } from "semantic-ui-react";
-import { PageAuthModel } from "../../models/AuthModel";
+import { premiumMembershipIAPId } from "../../../common/config";
+import { ILogger } from "../../../lib/logging/types";
+import { SessionStore } from "../../../lib/session/SessionStore";
+import { MembershipStore } from "../../../lib/membership/MembershipStore";
+import { IAPStore } from "../../../lib/iap/IAPStore";
 
 interface Props {
     logger?: ILogger;
     isOpen: boolean;
-    auth?: PageAuthModel;
+    session?: SessionStore;
+    membership?: MembershipStore;
+    iaps?: IAPStore;
     onClose: () => void;
 }
 
-@inject("logger", "auth")
+@inject("logger", "auth", "session", "membership", "iaps")
 @observer
 export class StartPremiumModal extends React.Component<Props, {}> {
     onLogin = async () => {
         this.props.logger!.debug("StartFreeTrial logging in");
-        await this.props.auth!.authenticate();
+        await this.props.session!.startSession();
         this.props.logger!.debug("StartFreeTrial starting as free trial");
     };
 
-    onPurchase = () => {
-        this.props.auth!.purchasePremiumMembership();
-    };
+    onPurchase = () => this.props.iaps!.purchase(premiumMembershipIAPId);
 
     render() {
-        const auth = this.props.auth!;
+        const membership = this.props.membership!;
+        const session = this.props.session!;
         return (
             <Modal
                 open={this.props.isOpen}
@@ -34,14 +38,14 @@ export class StartPremiumModal extends React.Component<Props, {}> {
                 onClose={this.props.onClose}
                 style={{ textAlign: "center" }}
             >
-                {auth.isAuthenticated ? (
+                {session.hasSession ? (
                     <LoggedIn
                         onPurchase={this.onPurchase}
-                        isLoading={auth.isLoading}
-                        isFreeTrial={auth.isOnFreeTrial}
+                        isLoading={session.isStartingSession}
+                        isFreeTrial={membership.isOnFreeTrial}
                     />
                 ) : (
-                    <NotLoggedIn onLogin={this.onLogin} isLoading={auth.isLoading} />
+                    <NotLoggedIn onLogin={this.onLogin} isLoading={session.isStartingSession} />
                 )}
             </Modal>
         );

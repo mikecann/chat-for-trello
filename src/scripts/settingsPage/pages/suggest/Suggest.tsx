@@ -1,8 +1,8 @@
 import * as React from "react";
 import { observer, inject } from "mobx-react";
-import { ILogger } from "mikeysee-helpers";
 import { Segment, Header } from "semantic-ui-react";
-import { Page } from "../components/Page";
+import { Page } from "../../components/Page";
+import { ILogger } from "../../../lib/logging/types";
 
 interface Props {
     logger?: ILogger;

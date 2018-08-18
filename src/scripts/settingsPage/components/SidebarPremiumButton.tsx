@@ -1,28 +1,34 @@
 import * as React from "react";
 import { observer, inject } from "mobx-react";
-import { ILogger } from "mikeysee-helpers";
-import { Image, Segment, Header, Label, Icon } from "semantic-ui-react";
+import { Image, Segment, Header, Label, Icon, Button } from "semantic-ui-react";
 import { Link } from "react-router-dom";
-import { PageAuthModel } from "../../models/AuthModel";
+import { AuthStore } from "../../lib/auth/AuthStore";
+import { MembershipStore } from "../../lib/membership/MembershipStore";
+import { SessionStore } from "../../lib/session/SessionStore";
 
 interface Props {
-    logger?: ILogger;
-    auth?: PageAuthModel;
+    auth?: AuthStore;
+    membership?: MembershipStore;
+    session?: SessionStore;
 }
 
-@inject("logger", "auth")
+@inject("auth", "membership", "session")
 @observer
 export class SidebarPremiumButton extends React.Component<Props, {}> {
     render() {
         const auth = this.props.auth!;
+        const membership = this.props.membership!;
+        const session = this.props.session!;
         return (
             <Link to="premium">
                 {this.props.auth!.isAuthenticated ? (
                     <Member
                         name={auth.userInfo!.name}
                         pic={auth.userInfo!.picture}
-                        daysRemain={auth.daysRemainingOnFreeTrial}
-                        isFreeTrial={auth.isOnFreeTrial}
+                        daysRemain={membership.daysRemainingOnFreeTrial}
+                        isFreeTrial={membership.isOnFreeTrial}
+                        userHasPremiumAccess={membership.userHasPremiumAccess}
+                        onSignout={session.endSession}
                     />
                 ) : (
                     <NotMember />
@@ -60,12 +66,14 @@ interface MemberProps {
     pic: string;
     daysRemain: number;
     isFreeTrial: boolean;
+    userHasPremiumAccess: boolean;
+    onSignout: () => void;
 }
 
 const Member = (props: MemberProps) => (
     <Segment>
         <Label style={{ textAlign: "center" }} color="orange" attached="top">
-            Chat for Trello Premium
+            Tasks for Trello Premium
         </Label>
         <div style={{ display: "flex" }}>
             <Label corner="left" color={props.isFreeTrial ? undefined : "yellow"}>
@@ -82,8 +90,14 @@ const Member = (props: MemberProps) => (
                             props.daysRemain
                         } days remaining)`}</Header.Subheader>
                     ) : (
-                        <Header.Subheader>Premium Member</Header.Subheader>
+                        <Header.Subheader>
+                            {props.userHasPremiumAccess ? "Premium " : ""}
+                            Member
+                        </Header.Subheader>
                     )}
+                    <Button size="mini" compact basic onClick={props.onSignout}>
+                        Signout
+                    </Button>
                 </Header>
             </div>
         </div>

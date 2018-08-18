@@ -1,4 +1,4 @@
-import { ILogger, Signal1, Signal2, Signal } from "mikeysee-helpers";
+import { ILogger } from "../../lib/logging/types";
 
 interface DOMWatcherOptions {
     classes?: string[];
@@ -9,10 +9,10 @@ interface DOMWatcherOptions {
 }
 
 export class DOMWatcher {
-    elementAdded: Signal1<Element>;
-    elementRemoved: Signal1<Element>;
-    characterDataChanged: Signal2<Element, string>;
-    attributeChanged: Signal1<string>;
+    elementAdded = (el: Element) => {};
+    elementRemoved = (el: Element) => {};
+    characterDataChanged = (el: Element, char: string) => {};
+    attributeChanged = (attrib: string) => {};
 
     private observer: MutationObserver;
     private logger: ILogger;
@@ -20,10 +20,6 @@ export class DOMWatcher {
     private options: DOMWatcherOptions;
 
     constructor(logger: ILogger) {
-        this.elementAdded = new Signal();
-        this.attributeChanged = new Signal();
-        this.elementRemoved = new Signal();
-        this.characterDataChanged = new Signal();
         this.logger = logger;
         this.isStarted = false;
     }
@@ -57,10 +53,10 @@ export class DOMWatcher {
                 }
 
                 if (m.type == "characterData" && m.target.parentElement && m.target.nodeValue)
-                    this.characterDataChanged.dispatch(m.target.parentElement, m.target.nodeValue);
+                    this.characterDataChanged(m.target.parentElement, m.target.nodeValue);
 
                 if (m.attributeName != null) {
-                    this.attributeChanged.dispatch(m.attributeName);
+                    this.attributeChanged(m.attributeName);
                 }
             });
         });
@@ -75,13 +71,13 @@ export class DOMWatcher {
     private onElementAdded(el: Element) {
         if (!this.hasRequiredClasses(el)) return;
 
-        this.elementAdded.dispatch(el);
+        this.elementAdded(el);
     }
 
     private onElementRemoved(el: Element) {
         if (!this.hasRequiredClasses(el)) return;
 
-        this.elementRemoved.dispatch(el);
+        this.elementRemoved(el);
     }
 
     hasRequiredClasses(el: Element) {

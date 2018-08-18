@@ -1,20 +1,18 @@
 import * as React from "react";
 import { observer, inject } from "mobx-react";
-import { ILogger } from "mikeysee-helpers";
 import { Segment, Label, Icon } from "semantic-ui-react";
 import { Link } from "react-router-dom";
-import { PageAuthModel } from "../../models/AuthModel";
+import { MembershipStore } from "../../lib/membership/MembershipStore";
 
 interface Props {
-    logger?: ILogger;
-    auth?: PageAuthModel;
+    membership?: MembershipStore;
 }
 
-@inject("logger", "auth")
+@inject("membership")
 @observer
 export class PremiumSettingsSegment extends React.Component<Props, {}> {
     render() {
-        const isPremium = this.props.auth!.userHasPremiumAccess;
+        const isPremium = this.props.membership!.userHasPremiumAccess;
         return (
             <Segment>
                 <Label ribbon="right" style={{ zIndex: 10 }}>

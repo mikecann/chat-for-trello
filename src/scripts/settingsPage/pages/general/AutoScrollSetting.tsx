@@ -1,22 +1,25 @@
 import * as React from "react";
 import { observer, inject } from "mobx-react";
 import { Checkbox, CheckboxProps, Form } from "semantic-ui-react";
-import { AppSettingsModel } from "../../../models/AppSettingsModel";
 import { action } from "mobx";
+import { AppSettingsStore } from "../../../lib/settings/AppSettingsStore";
+import { AppSettings } from "../../../common/config";
 
 interface Props {
-    model?: AppSettingsModel;
+    settings?: AppSettingsStore<AppSettings>;
 }
 
-@inject("model")
+@inject("settings")
 @observer
 export class AutoScrollSetting extends React.Component<Props, {}> {
     @action
     onAutoScrollChange = (e: any, checkbox: CheckboxProps) =>
-        (this.props.model!.settings.autoScrollChatWindow = checkbox.checked == true);
+        this.props.settings!.update({
+            autoScrollChatWindow: checkbox.checked
+        });
 
     render() {
-        const settings = this.props.model!.settings;
+        const settings = this.props.settings!.settings;
         return (
             <Form.Field>
                 <Checkbox

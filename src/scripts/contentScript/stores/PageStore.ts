@@ -1,9 +1,8 @@
 import { observable, action, runInAction } from "mobx";
-import { ILogger } from "mikeysee-helpers";
 import { BoardsService } from "../services/BoardsService";
-import { CardsService } from "../services/CardsService";
 import { StoresFactory } from "../helpers/StoresFactory";
 import { BoardStore } from "./BoardStore";
+import { ILogger } from "../../lib/logging/types";
 
 export class PageStore {
     @observable board: BoardStore | null;

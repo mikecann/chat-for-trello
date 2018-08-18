@@ -1,37 +1,23 @@
 import * as React from "react";
 import { observer, inject } from "mobx-react";
-import { ILogger } from "mikeysee-helpers";
-import {
-    Segment,
-    Header,
-    Form,
-    Button,
-    Modal,
-    Divider,
-    Icon,
-    Checkbox,
-    CheckboxProps,
-    Dropdown
-} from "semantic-ui-react";
-import { Slider } from "react-semantic-ui-range";
-import { AppSettingsModel } from "../../../models/AppSettingsModel";
+import { Segment, Header, Form, Button, Modal, Divider, Icon } from "semantic-ui-react";
 import { Page } from "../../components/Page";
 import { SettingsSaveButton } from "../../components/SettingsSaveButton";
 import { observable, runInAction, action } from "mobx";
 import { AutoScrollSetting } from "./AutoScrollSetting";
 import { MaxChatEntriesSetting } from "./MaxChatEntriesSetting";
-import { ChatWindowOrder } from "../../../models/ChatWindowOrder";
 import { ChatWindowOrderSetting } from "./ChatWindowOrderSetting";
-import { BackgroundPage } from "../../../background/background";
+import { ILogger } from "../../../lib/logging/types";
+import { AppSettingsStore } from "../../../lib/settings/AppSettingsStore";
+import { AppSettings } from "../../../common/config";
 
 interface Props {
     logger?: ILogger;
     location: Location;
-    model: AppSettingsModel;
-    background: BackgroundPage;
+    settings: AppSettingsStore<AppSettings>;
 }
 
-@inject("logger", "model", "background")
+@inject("logger", "settings")
 @observer
 export class General extends React.Component<Props, {}> {
     @observable isResetWarningModalOpen = false;
@@ -41,14 +27,11 @@ export class General extends React.Component<Props, {}> {
     @action openResetWarningModal = () => (this.isResetWarningModalOpen = true);
 
     onConfirmResetSettings = () => {
-        this.props.background.reset();
+        this.props.settings.reset();
         this.closeResetWarningModal();
-        window.location.reload();
     };
 
     render() {
-        const { model } = this.props;
-        const settings = model.settings;
         return (
             <Page location={this.props.location}>
                 <Segment>

@@ -1,6 +1,5 @@
 import * as React from "react";
 import { observer } from "mobx-react";
-import { Comment } from "semantic-ui-react";
 import * as moment from "moment";
 import { ChatMessageAvatar } from "./ChatMessageAvatar";
 import { observable, action } from "mobx";

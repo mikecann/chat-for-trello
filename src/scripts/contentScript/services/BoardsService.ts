@@ -1,8 +1,8 @@
-﻿import { ILogger } from "mikeysee-helpers";
-import { ServiceHelpers } from "../../helpers/ServiceHelpers";
+﻿import { ILogger } from "../../lib/logging/types";
+import { HttpHelpers } from "../../lib/http/HttpHelpers";
 
 export class BoardsService {
-    constructor(private logger: ILogger, private helpers: ServiceHelpers) {}
+    constructor(private logger: ILogger, private helpers: HttpHelpers) {}
 
     async getBoard<T>(boardId: string, data?: any): Promise<T> {
         this.logger.debug("Board", boardId);
@@ -21,7 +21,7 @@ export class BoardsService {
 
     async createList(boardId: string, name: string): Promise<TrelloList> {
         var url = "https://trello.com/1/boards/" + boardId + "/lists";
-        this.logger.debug(this, "Adding list to board..", boardId, name);
+        this.logger.debug("BoardsService", "Adding list to board..", boardId, name);
         const resp = await this.helpers.post<TrelloList>(url, {
             name
         });
