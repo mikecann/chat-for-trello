@@ -6,7 +6,8 @@ import {
     logger,
     chromeService,
     trunk,
-    session
+    session,
+    notifications
 } from "../common/common";
 import { configure } from "mobx";
 import { migration, extension } from "../common/common";
@@ -16,6 +17,7 @@ import {
     storeLogs,
     logUnhandledErrors
 } from "../common/logging";
+import { TabFocusingController } from "./controllers/TabFocusingController";
 
 const pageName = "Background";
 
@@ -34,6 +36,9 @@ async function init() {
     extension.handleOpenPage();
     extension.handleReboot();
     extension.setupBackgroundPage({ logs });
+    notifications.init();
+
+    new TabFocusingController(bus, notifications).init();
 }
 
 init();

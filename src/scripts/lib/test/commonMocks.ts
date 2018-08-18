@@ -5,6 +5,8 @@ import { GoogleCloudServices } from "../chrome/GoogleCloudServices";
 import { IAPStore } from "../iap/IAPStore";
 import { AuthStore } from "../auth/AuthStore";
 import { NullLogger } from "../logging/NullLogger";
+import { ExtensionMessageBus } from "../messaging/ExtensionMessageBus";
+import { Extension } from "../extension/Extension";
 
 export const mockPersister: jest.Mocked<Persister<any>> = {
     ...({} as any)
@@ -16,13 +18,16 @@ export const mockChromeService = createMock(ChromeService);
 
 export const mockCloudService = createMock(GoogleCloudServices);
 
+export const mockBus = createMock(ExtensionMessageBus);
+
+export const mockExtension = createMock(Extension);
+
 export const mockIapStore: jest.Mocked<IAPStore> = {
     load: jest.fn(),
     clear: jest.fn(),
     ...({} as any)
 };
 
-//export const mockAuthStore = produceMock(AuthStore);
 export const mockAuthStore = createMock(AuthStore);
 
 export const nullLogger = new NullLogger();

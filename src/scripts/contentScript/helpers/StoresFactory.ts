@@ -8,6 +8,8 @@ import { IPersistanceService } from "../../lib/persistance/IPersistanceService";
 import { AppSettings } from "../../common/config";
 import { ILogger } from "../../lib/logging/types";
 import { AppSettingsStore } from "../../lib/settings/AppSettingsStore";
+import { MeStore } from "../stores/MeStore";
+import { MembersService } from "../services/MembersService";
 
 export class StoresFactory {
     constructor(
@@ -15,7 +17,8 @@ export class StoresFactory {
         private appSettings: AppSettingsStore<AppSettings>,
         private logger: ILogger,
         private boardsService: BoardsService,
-        private chatService: ChatService
+        private chatService: ChatService,
+        private membersService: MembersService
     ) {}
 
     createPage() {
@@ -31,6 +34,11 @@ export class StoresFactory {
     createChat(board: BoardStore) {
         this.logger.debug("ModelsFactory creating Chat");
         return new ChatStore(this.logger, board, this, this.chatService, this.appSettings);
+    }
+
+    createMe() {
+        this.logger.debug("ModelsFactory creating MeStore");
+        return new MeStore(this.logger, this.membersService);
     }
 
     createBoardSettings(boardId: string): BoardSettingsStore {

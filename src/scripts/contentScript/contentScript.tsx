@@ -14,6 +14,10 @@ import { WebRequestInterceptorHandler } from "../controllers/WebRequestIntercept
 import { ListsService } from "./services/ListsService";
 import { ChatService } from "./services/ChatService";
 import { StoresFactory } from "./helpers/StoresFactory";
+import { ChromePersistanceService } from "../lib/persistance/ChromePersistanceService";
+import { logger } from "../common/common";
+import { MembersService } from "./services/MembersService";
+import { ChatNotificationtsController } from "../controllers/ChatNotificationtsController";
 
 const pageName = "ContentScript";
 
@@ -43,6 +47,7 @@ async function init() {
     const batchService = new GetBatchService(common.logger, common.http);
     const cardService = new CardsService(common.logger, common.http, batchService);
     const boardsService = new BoardsService(common.logger, common.http);
+    const membersService = new MembersService(common.logger, common.http);
     const listsService = new ListsService(logger, common.http);
     const resetController = new ResetController();
     const chatService = new ChatService(common.logger, boardsService, listsService, cardService);
@@ -51,10 +56,17 @@ async function init() {
         common.settings,
         logger,
         boardsService,
-        chatService
+        chatService,
+        membersService
     );
     const page = factory.createPage();
-    const websocket = new WebSocketInterceptHandler(common.logger, page);
+    const notifications = new ChatNotificationtsController(
+        common.logger,
+        common.settings,
+        common.bus,
+        page
+    );
+    const websocket = new WebSocketInterceptHandler(common.logger, page, notifications);
     const webRequest = new WebRequestInterceptorHandler(common.logger, page);
 
     websocket.listen();
@@ -74,41 +86,9 @@ async function init() {
         </Provider>,
         root
     );
-
-    // ReactDOM.render(
-    //     <Provider {...{ ...common }}>
-    //         <Router />
-    //     </Provider>,
-    //     document.getElementById("root")
-    // );
 }
 
 init();
-
-// import * as React from "react";
-// import * as ReactDOM from "react-dom";
-// import { ContentScriptToBackgroundController } from "./controllers/ContentScriptToBackgroundController";
-// import { configure } from "mobx";
-// import { StoresFactory } from './helpers/StoresFactory';
-// import { CardsService } from "./services/CardsService";
-// import { ServiceHelpers } from "../helpers/ServiceHelpers";
-// import { GetBatchService } from "./services/GetBatchService";
-// import { ChromePersistanceService } from "../services/ChromePersistanceService";
-// import { AppSettingsModel } from "../models/__AppSettingsModel";
-// import { Provider } from "mobx-react";
-// import { AggregateLogger, ConsoleLogger } from "mikeysee-helpers";
-// import { ExtensionMessagingLogger } from "../helpers/ExtensionMessagingLogger";
-// import { FilteredLogger } from "../helpers/FilteredLogger";
-// import { logUnhandledErrors, createAppSettingsLogFilter } from "../helpers/utils";
-// import { ChromeService } from "../services/ChromeService";
-// import { ContentScriptAuthModel } from "../models/AuthModel";
-// import { BoardsService } from "./services/BoardsService";
-// import { Page } from "./components/Page";
-// import { ListsService } from './services/ListsService';
-// import { WebSocketInterceptHandler } from "../controllers/WebSocketInterceptHandler";
-// import { ChatService } from './services/ChatService';
-import { ChromePersistanceService } from "../lib/persistance/ChromePersistanceService";
-import { logger } from "../common/common";
 
 // async function init() {
 //     // Logging is important

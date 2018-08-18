@@ -25,6 +25,7 @@ export class Router extends React.Component<Props, {}> {
                         <Route path="/general" component={General} />
                         <Route path="/logging" component={Logging} />
                         <Route path="/errors" component={Errors} />
+                        <Route path="/notifications" component={Notifications} />
                         <Route path="/suggest" component={Suggest} />
                         <Route path="/privacy" component={Privacy} />
                         <Route path="/premium" component={Premium} />

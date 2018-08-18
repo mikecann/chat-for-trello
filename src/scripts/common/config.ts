@@ -1,4 +1,5 @@
 import { isDevMode } from "./utils";
+import { LogLevel } from "../lib";
 
 export enum ChatWindowOrder {
     BehindCards = "behind_cards",
@@ -8,12 +9,20 @@ export enum ChatWindowOrder {
 export const premiumMembershipIAPId = "premiummembership";
 export const TRIAL_PERIOD_DAYS = 30;
 
-export type AppSettings = typeof defaultAppSettings;
+export type AppSettings = {
+    autoScrollChatWindow: boolean;
+    logLevel: LogLevel;
+    lastMigratedVersion: string;
+    maxChatEntries: number;
+    notificationsEnabled?: boolean;
+    chatWindowOrder: ChatWindowOrder;
+};
 
-export const defaultAppSettings = {
+export const defaultAppSettings: AppSettings = {
     autoScrollChatWindow: true,
     logLevel: isDevMode ? "debug" : "info",
     lastMigratedVersion: "",
     maxChatEntries: 100,
+    notificationsEnabled: false,
     chatWindowOrder: ChatWindowOrder.InfrontOfCards
 };

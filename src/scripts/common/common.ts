@@ -17,6 +17,7 @@ import { SessionStore } from "../lib/session/SessionStore";
 import { LogsStore } from "../lib/logging/LogsStore";
 import { Trunk } from "../lib/persistance/Trunk";
 import { MigrationsController } from "../background/controllers/MigrationsController";
+import { NotificationsStore } from "../lib/notifications/NotificationsStore";
 
 export const premiumMembershipSelector = (p: GoogleIAPPurchase) => p.sku == premiumMembershipIAPId;
 
@@ -31,7 +32,8 @@ export const cloudServices = new GoogleCloudServices();
 export const syncPersistance = new ChromePersistanceService(chrome.storage.sync, logger);
 export const bus = new ExtensionMessageBus(logger);
 export const http = new HttpHelpers();
-export const extension = new Extension(logger, bus);
+export const notifications = new NotificationsStore(bus);
+export const extension = new Extension(logger, bus, notifications);
 
 // Stores
 export const auth = new AuthStore(logger, chromeService, cloudServices);

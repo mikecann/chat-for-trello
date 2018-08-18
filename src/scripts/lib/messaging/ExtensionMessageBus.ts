@@ -2,6 +2,7 @@ import { ILogger } from "../logging/types";
 
 export interface ExtensionBusMessage {
     type: string;
+    sender?: chrome.runtime.MessageSender;
 }
 
 export type MessageHandler<T extends ExtensionBusMessage, U> = (msg: T) => U;
@@ -28,9 +29,10 @@ export class ExtensionMessageBus {
             port.onMessage.addListener(msg => this.onMsg(msg));
         });
 
-        chrome.runtime.onMessage.addListener((msg, sender, responseCb) =>
-            this.onMsg(msg, responseCb)
-        );
+        chrome.runtime.onMessage.addListener((msg, sender, responseCb) => {
+            msg.sender = sender;
+            this.onMsg(msg, responseCb);
+        });
     }
 
     private onMsg(msg: any, responseCb?: (response: any) => void) {
