@@ -3,7 +3,7 @@ import { observer, inject } from "mobx-react";
 import { Menu, Grid, Image, Header } from "semantic-ui-react";
 import { Socials } from "../../components/Socials";
 import { Link } from "react-router-dom";
-import { SidebarPremiumButton } from "./SidebarPremiumButton";
+import { SidebarPremiumButton } from "../../lib/components/sidebar/SidebarPremiumButton";
 
 interface Props {
     location: Location;
@@ -50,13 +50,13 @@ export class Sidebar extends React.Component<Props, {}> {
                             active={location === "/" || location === "/general"}
                             onClick={this.handleItemClick}
                         />
-                        {/* <Menu.Item
+                        <Menu.Item
                             as={Link}
-                            to="/lists"
-                            name="lists"
-                            active={location === "/lists"}
+                            to="/notifications"
+                            name="notifications"
+                            active={location === "/notifications"}
                             onClick={this.handleItemClick}
-                        /> */}
+                        />
                         <Menu.Item
                             as={Link}
                             to="/logging"

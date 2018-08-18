@@ -2,9 +2,9 @@ import * as React from "react";
 import { observer, inject } from "mobx-react";
 import { Image, Segment, Header, Label, Icon, Button } from "semantic-ui-react";
 import { Link } from "react-router-dom";
-import { AuthStore } from "../../lib/auth/AuthStore";
-import { MembershipStore } from "../../lib/membership/MembershipStore";
-import { SessionStore } from "../../lib/session/SessionStore";
+import { AuthStore } from "../../auth/AuthStore";
+import { MembershipStore } from "../../membership/MembershipStore";
+import { SessionStore } from "../../session/SessionStore";
 
 interface Props {
     auth?: AuthStore;

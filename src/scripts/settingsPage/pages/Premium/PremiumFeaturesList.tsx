@@ -4,7 +4,6 @@ import { Segment, List } from "semantic-ui-react";
 export const PremiumFeaturesList = () => (
     <Segment textAlign="center" style={{ width: 400 }} color="green">
         <List>
-            <ListItem label="Per list toggling of checkboxes" />
             <ListItem label="Send completed cards to the bottom or top of the list" />
             <ListItem label="Premium level support" />
             <ListItem label="All future features" />

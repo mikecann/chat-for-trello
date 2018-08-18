@@ -50,7 +50,7 @@ export class NotPremiumMemberOrOnFreeTrial extends React.Component<Props, {}> {
         return (
             <React.Fragment>
                 <Segment style={{ textAlign: "center" }}>
-                    <Header as="h1">Tasks for Trello Premium Membership</Header>
+                    <Header as="h1">Chat for Trello Premium Membership</Header>
                     <div>
                         Become a premium member today and get access to all these awesome additional
                         features:

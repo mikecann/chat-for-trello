@@ -4,6 +4,15 @@ module.exports = (baseConfig, env, config) => {
         test: /\.(ts|tsx)$/,
         loader: require.resolve("awesome-typescript-loader")
     });
+    config.module.rules.push({
+        test: /\.(png|jpg|gif)$/,
+        use: [
+            {
+                loader: "file-loader",
+                options: {}
+            }
+        ]
+    });
     config.resolve.extensions.push(".ts", ".tsx");
     return config;
 };
