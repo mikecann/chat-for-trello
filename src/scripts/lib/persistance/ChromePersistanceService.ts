@@ -1,5 +1,6 @@
 import { IPersistanceService, WatchDisposer } from "./IPersistanceService";
 import { ILogger } from "../logging/types";
+import { debounce } from "ts-debounce";
 
 export class ChromePersistanceService implements IPersistanceService {
     constructor(private area: chrome.storage.StorageArea, private logger: ILogger) {}
@@ -24,7 +25,7 @@ export class ChromePersistanceService implements IPersistanceService {
         });
     }
 
-    save<T>(key: string, value: T): Promise<void> {
+    private doSave<T>(key: string, value: T): Promise<void> {
         return new Promise<void>((resolve, reject) => {
             const json = JSON.stringify(value);
             this.logger.debug(
@@ -40,6 +41,8 @@ export class ChromePersistanceService implements IPersistanceService {
             );
         });
     }
+
+    save = debounce(this.doSave, 500);
 
     watch<T>(key: string, callback: (newValue: T) => void): WatchDisposer {
         const listener = (
