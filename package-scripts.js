@@ -35,7 +35,7 @@ module.exports = {
             resources: "cpx ./src/resources/**/*.* ./dist"
         },
         watch: {
-            default: concurrent.nps("watch.resources", "watch.scripts", "test.watch"),
+            default: concurrent.nps("watch.resources", "watch.scripts", "test.watch", "storybook"),
             scripts: 'nps "build.scripts --watch"',
             resources: series(
                 "nps build.resources",
@@ -58,6 +58,9 @@ module.exports = {
                     manifest.version
                 }.zip .`
             )
+        },
+        storybook: {
+            default: "start-storybook -p 6006"
         },
         test: {
             default: "jest",
