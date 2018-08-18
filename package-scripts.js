@@ -32,7 +32,7 @@ module.exports = {
                 hidden: true
             },
             scripts: "webpack --config ./webpack.config.js",
-            resources: "cpx ./src/resources/**/*.* ./dist"
+            resources: "cpx './src/resources/**/*.*' './dist'"
         },
         watch: {
             default: concurrent.nps("watch.resources", "watch.scripts", "test.watch"),

@@ -23,16 +23,7 @@ export class ChatNotificationtsController {
         private page: PageStore
     ) {}
 
-    init() {
-        this.bus.handleMessage<CreateChatNotification, any>(createChatNotification, msg =>
-            this.notifications.create(msg.options, msg.id, () => {
-                if (msg.sender && msg.sender.tab && msg.sender.tab.id != null)
-                    chrome.tabs.update(msg.sender.tab.id, { active: true });
-            })
-        );
-    }
-
-    handleNewComment(comment: TrelloCommentAction) {
+    handleNewComment = (comment: TrelloCommentAction) => {
         if (!this.appSettings.settings.notificationsEnabled) return;
         if (!this.page.board || !this.page.board.me) return;
         const me = this.page.board.me.me;
@@ -53,5 +44,5 @@ export class ChatNotificationtsController {
         );
         this.notifications[msg.id] = msg;
         this.bus.sendMessage(msg);
-    }
+    };
 }

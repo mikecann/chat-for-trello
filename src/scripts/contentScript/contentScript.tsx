@@ -66,7 +66,11 @@ async function init() {
         common.bus,
         page
     );
-    const websocket = new WebSocketInterceptHandler(common.logger, page, notifications);
+    const websocket = new WebSocketInterceptHandler(
+        common.logger,
+        page,
+        notifications.handleNewComment
+    );
     const webRequest = new WebRequestInterceptorHandler(common.logger, page);
 
     websocket.listen();

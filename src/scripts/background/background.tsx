@@ -17,7 +17,7 @@ import {
     storeLogs,
     logUnhandledErrors
 } from "../common/logging";
-import { TabFocusingController } from "./controllers/TabFocusingController";
+import { BackgroundChatNotificationsController } from "./controllers/BackgroundChatNotificationsController";
 
 const pageName = "Background";
 
@@ -37,8 +37,7 @@ async function init() {
     extension.handleReboot();
     extension.setupBackgroundPage({ logs });
     notifications.init();
-
-    new TabFocusingController(bus, notifications).init();
+    new BackgroundChatNotificationsController(bus, notifications).init();
 }
 
 init();

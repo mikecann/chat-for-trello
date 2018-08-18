@@ -32,7 +32,7 @@ export const cloudServices = new GoogleCloudServices();
 export const syncPersistance = new ChromePersistanceService(chrome.storage.sync, logger);
 export const bus = new ExtensionMessageBus(logger);
 export const http = new HttpHelpers();
-export const notifications = new NotificationsStore(bus);
+export const notifications = new NotificationsStore();
 export const extension = new Extension(logger, bus, notifications);
 
 // Stores
