@@ -8,6 +8,7 @@ import { PremiumFeaturesList } from "./PremiumFeaturesList";
 import { AuthStore } from "../../../lib/auth/AuthStore";
 import { SessionStore } from "../../../lib/session/SessionStore";
 import { MembershipStore } from "../../../lib/membership/MembershipStore";
+import { LoginSegment } from "../../../lib/components/premium/LoginSegment";
 
 interface Props {
     auth?: AuthStore;
@@ -109,18 +110,4 @@ const PremiumSubscriptionCard = (props: { onClick: () => void }) => (
             </Card.Description>
         </Card.Content>
     </Card>
-);
-
-const LoginSegment = (props: { isLoading: boolean; onLogin: () => void }) => (
-    <Segment style={{ textAlign: "center" }}>
-        <Header as="h3">
-            Already a Member?
-            <Header.Subheader>
-                Are you already a premium member and need to login, no worries
-            </Header.Subheader>
-        </Header>
-        <Button loading={props.isLoading} primary onClick={props.onLogin}>
-            Login
-        </Button>
-    </Segment>
 );

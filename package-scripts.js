@@ -35,7 +35,7 @@ module.exports = {
             resources: "cpx ./src/resources/**/*.* ./dist"
         },
         watch: {
-            default: concurrent.nps("watch.resources", "watch.scripts", "test.watch", "storybook"),
+            default: concurrent.nps("watch.resources", "watch.scripts", "test.watch"),
             scripts: 'nps "build.scripts --watch"',
             resources: series(
                 "nps build.resources",

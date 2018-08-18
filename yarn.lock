@@ -324,6 +324,10 @@
   dependencies:
     csstype "^2.2.0"
 
+"@types/storybook__addon-actions@^3.4.1":
+  version "3.4.1"
+  resolved "https://registry.yarnpkg.com/@types/storybook__addon-actions/-/storybook__addon-actions-3.4.1.tgz#8f90d76b023b58ee794170f2fe774a3fddda2c1d"
+
 "@types/storybook__addon-info@^3.4.1":
   version "3.4.1"
   resolved "https://registry.yarnpkg.com/@types/storybook__addon-info/-/storybook__addon-info-3.4.1.tgz#a207fb1856d1293db38078848bd6172d48232d21"
