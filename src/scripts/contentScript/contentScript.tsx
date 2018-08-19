@@ -26,7 +26,7 @@ async function init() {
     const rootElementId = "tasks-for-trello-root";
     if (document.getElementById(rootElementId))
         throw new Error(
-            "Found and existing running instance of Tasks for Trello, this shouldnt ever happen. Exiting."
+            "Found and existing running instance of Chat for Trello, this shouldnt ever happen. Exiting."
         );
 
     configure({ enforceActions: true });
@@ -63,6 +63,7 @@ async function init() {
     const notifications = new ChatNotificationtsController(
         common.logger,
         common.settings,
+        common.membership,
         common.bus,
         page
     );

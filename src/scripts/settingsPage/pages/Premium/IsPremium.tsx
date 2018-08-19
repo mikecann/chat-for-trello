@@ -6,6 +6,7 @@ import { CancelMembershipModal } from "./CancelMembershipModal";
 import { PremiumFeaturesList } from "./PremiumFeaturesList";
 import { AuthStore } from "../../../lib/auth/AuthStore";
 import { MembershipStore } from "../../../lib/membership/MembershipStore";
+import { trelloBoard } from "../../../common/config";
 
 interface Props {
     auth?: AuthStore;
@@ -28,23 +29,21 @@ export class IsPremium extends React.Component<Props, {}> {
             <React.Fragment>
                 <Segment style={{ textAlign: "center" }}>
                     <video src={`/images/thanks${thanks}.mp4`} autoPlay loop />
-                    <Header as="h1">Tasks for Trello Premium Membership</Header>
+                    <Header as="h1">Chat for Trello Premium Membership</Header>
 
                     <p>
-                        Thankyou so much for becoming a Tasks for Trello Premium Member. Your
+                        Thankyou so much for becoming a Chat for Trello Premium Member. Your
                         continued support goes a long way towards helping me continue to improve
                         this extension.
                     </p>
                     <p>
                         Please feel free to leave me an message or suggestion on{" "}
-                        <a href="https://trello.com/b/H9WH4BAm/tasks-for-trello">
-                            our trello board
-                        </a>
+                        <a href={trelloBoard}>our trello board</a>
                         , or email me directy at any time if you have questions:{" "}
                         <a href="mailto:mike@cannstudios.com">mike@cannstudios.com</a>.{" "}
                     </p>
                     <p>
-                        As a Tasks for Trello Premium member you now have full access to the
+                        As a Chat for Trello Premium member you now have full access to the
                         following:
                     </p>
                     <div style={{ display: "flex", marginTop: 20, justifyContent: "center" }}>

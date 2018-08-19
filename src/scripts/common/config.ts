@@ -8,6 +8,7 @@ export enum ChatWindowOrder {
 
 export const premiumMembershipIAPId = "premiummembership";
 export const TRIAL_PERIOD_DAYS = 30;
+export const trelloBoard = "https://trello.com/b/Mdpd40Tt/chat-for-trello";
 
 export type AppSettings = {
     autoScrollChatWindow: boolean;

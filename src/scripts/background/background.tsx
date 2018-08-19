@@ -18,6 +18,7 @@ import {
     logUnhandledErrors
 } from "../common/logging";
 import { BackgroundChatNotificationsController } from "./controllers/BackgroundChatNotificationsController";
+import { ContentScriptController } from "../controllers/ContentScriptController";
 
 const pageName = "Background";
 
@@ -38,6 +39,10 @@ async function init() {
     extension.setupBackgroundPage({ logs });
     notifications.init();
     new BackgroundChatNotificationsController(logger, bus, notifications, chromeService).init();
+
+    const contentScripts = new ContentScriptController(logger);
+    await contentScripts.init();
+    contentScripts.injectIntoExistingTabs();
 }
 
 init();

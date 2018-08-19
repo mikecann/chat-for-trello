@@ -6,6 +6,7 @@ import { SettingsSaveButton } from "../../components/SettingsSaveButton";
 import { Page } from "../../components/Page";
 import { AppSettingsStore } from "../../../lib/settings/AppSettingsStore";
 import { AppSettings } from "../../../common/config";
+import { PremiumSettingsSegment } from "../../components/PremiumSettingsSegment";
 
 interface Props {
     logger?: ILogger;
@@ -25,7 +26,7 @@ export class Notifications extends React.Component<Props, {}> {
         const settings = this.props.settings.settings;
         return (
             <Page location={this.props.location}>
-                <Segment>
+                <PremiumSettingsSegment>
                     <Header as="h1">
                         Notifications Settings
                         <Header.Subheader>Send new message notifications</Header.Subheader>
@@ -39,7 +40,7 @@ export class Notifications extends React.Component<Props, {}> {
                     />
                     <Divider section />
                     <SettingsSaveButton />
-                </Segment>
+                </PremiumSettingsSegment>
             </Page>
         );
     }

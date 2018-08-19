@@ -65,10 +65,6 @@ export class ContentScriptController {
         this.logger.debug(`There are now ${this.openPorts.length} open ports.`);
     }
 
-    sendMessage<T>(port: chrome.runtime.Port, message: Message<T>) {
-        port.postMessage(message);
-    }
-
     destroy() {
         this.logger.debug(`Disconnecting ${this.openPorts.length} open ports.`);
 

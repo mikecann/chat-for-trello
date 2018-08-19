@@ -12,7 +12,7 @@ export interface LogMessage extends ExtensionBusMessage {
 }
 
 export function logPageStartup(logger: ILogger, page: string, chromeService: ChromeService) {
-    logger.info("logging.ts", `Tasks for Trello v${chromeService.appVersion} starting up ${page}`, {
+    logger.info("logging.ts", `Chat for Trello v${chromeService.appVersion} starting up ${page}`, {
         env: process.env
     });
 }

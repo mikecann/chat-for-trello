@@ -50,7 +50,7 @@ export class IAPStore implements IPersistable<JsonProps> {
         this.logger.debug("IAPStore purchase complete.", resp);
 
         // Now refresh the purchases
-        const purchases = await this.loadPurchases();
+        await this.load();
     }
 
     @action

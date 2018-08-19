@@ -1,7 +1,7 @@
 import { AppSettingsStore } from "../lib/settings/AppSettingsStore";
 import { AppSettings } from "../common/config";
 import { PageStore } from "../contentScript/stores/PageStore";
-import { ExtensionMessageBus, ILogger } from "../lib";
+import { ExtensionMessageBus, ILogger, MembershipStore } from "../lib";
 import * as shortid from "shortid";
 import { ExtensionBusMessage } from "../lib/messaging/ExtensionMessageBus";
 
@@ -19,12 +19,14 @@ export class ChatNotificationtsController {
     constructor(
         private logger: ILogger,
         private appSettings: AppSettingsStore<AppSettings>,
+        private membership: MembershipStore,
         private bus: ExtensionMessageBus,
         private page: PageStore
     ) {}
 
     handleNewComment = (comment: TrelloCommentAction) => {
         if (!this.appSettings.settings.desktopNotificationsEnabled) return;
+        if (!this.membership.userHasPremiumAccess) return;
         if (!this.page.board || !this.page.board.me) return;
         const me = this.page.board.me.me;
         if (me.id == comment.memberCreator.id) return;
