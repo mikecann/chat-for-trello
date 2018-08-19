@@ -24,7 +24,7 @@ export class ChatNotificationtsController {
     ) {}
 
     handleNewComment = (comment: TrelloCommentAction) => {
-        if (!this.appSettings.settings.notificationsEnabled) return;
+        if (!this.appSettings.settings.desktopNotificationsEnabled) return;
         if (!this.page.board || !this.page.board.me) return;
         const me = this.page.board.me.me;
         if (me.id == comment.memberCreator.id) return;

@@ -14,7 +14,7 @@ export type AppSettings = {
     logLevel: LogLevel;
     lastMigratedVersion: string;
     maxChatEntries: number;
-    notificationsEnabled?: boolean;
+    desktopNotificationsEnabled?: boolean;
     chatWindowOrder: ChatWindowOrder;
 };
 
@@ -23,6 +23,6 @@ export const defaultAppSettings: AppSettings = {
     logLevel: isDevMode ? "debug" : "info",
     lastMigratedVersion: "",
     maxChatEntries: 100,
-    notificationsEnabled: false,
+    desktopNotificationsEnabled: false,
     chatWindowOrder: ChatWindowOrder.InfrontOfCards
 };

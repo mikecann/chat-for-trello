@@ -18,7 +18,7 @@ interface Props {
 export class Notifications extends React.Component<Props, {}> {
     onNotificationsEnabledChanged = (e: any, d: CheckboxProps) =>
         this.props.settings.update({
-            notificationsEnabled: d.checked
+            desktopNotificationsEnabled: d.checked
         });
 
     render() {
@@ -33,8 +33,8 @@ export class Notifications extends React.Component<Props, {}> {
                     <Divider section />
                     <Checkbox
                         toggle
-                        checked={settings.notificationsEnabled}
-                        label="Notifications Enabled"
+                        checked={settings.desktopNotificationsEnabled}
+                        label="Desktop Notifications Enabled - Notify me when someone posts a chat message in an unfocused tab."
                         onChange={this.onNotificationsEnabledChanged}
                     />
                     <Divider section />

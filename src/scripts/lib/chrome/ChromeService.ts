@@ -17,6 +17,12 @@ export class ChromeService {
         });
     }
 
+    async getWindow(id: number): Promise<chrome.windows.Window> {
+        return new Promise<chrome.windows.Window>((resolve, reject) => {
+            chrome.windows.get(id, resolve);
+        });
+    }
+
     // Thanks to this guide: https://gist.github.com/raineorshine/970b60902c9e6e04f71d
     async getAuthToken(details?: chrome.identity.TokenDetails): Promise<string> {
         if (!details) details = { interactive: true };

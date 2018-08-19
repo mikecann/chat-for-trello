@@ -2,19 +2,29 @@ import {
     CreateChatNotification,
     createChatNotification
 } from "../../controllers/ChatNotificationtsController";
-import { ExtensionMessageBus } from "../../lib";
+import { ExtensionMessageBus, ChromeService, ILogger } from "../../lib";
 import { NotificationsStore } from "../../lib/notifications/NotificationsStore";
 
 export class BackgroundChatNotificationsController {
-    constructor(private bus: ExtensionMessageBus, private notifications: NotificationsStore) {}
+    constructor(
+        private logger: ILogger,
+        private bus: ExtensionMessageBus,
+        private notifications: NotificationsStore,
+        private chrome: ChromeService
+    ) {}
 
     init() {
-        this.bus.handleMessage<CreateChatNotification, any>(createChatNotification, msg => {
+        this.bus.handleMessage<CreateChatNotification, any>(createChatNotification, async msg => {
             if (!msg.sender || !msg.sender.tab) return;
 
-            console.log("HANDLE CHAT MESSAGE", msg.sender.tab);
+            const window = await this.chrome.getWindow(msg.sender.tab.windowId);
 
-            if (msg.sender.tab.selected) return;
+            this.logger.debug("BackgroundChatNotificationsController", "Handle message", {
+                tab: msg.sender.tab,
+                window
+            });
+
+            if (msg.sender.tab.selected && window.focused) return;
 
             this.notifications.create(msg.options, msg.id, () => {
                 if (msg.sender && msg.sender.tab && msg.sender.tab.id != null)

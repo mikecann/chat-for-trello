@@ -1,7 +1,7 @@
 import { AuthStore } from "../auth/AuthStore";
 import { IAPStore } from "../iap/IAPStore";
 import { ILogger } from "../logging/types";
-import { computed, observable } from "mobx";
+import { computed } from "mobx";
 
 export class SessionStore {
     constructor(private logger: ILogger, private auth: AuthStore, private iaps: IAPStore) {}
