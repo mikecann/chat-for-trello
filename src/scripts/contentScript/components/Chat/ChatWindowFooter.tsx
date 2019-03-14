@@ -40,7 +40,7 @@ export class ChatWindowFooter extends React.Component<ChatPopupBodyProps, {}> {
                         boxShadow: "none",
                         background: "none"
                     }}
-                    placeholder="Enter message"
+                    placeholder="Enter message..."
                     rows={1}
                     value={this.message}
                     onChange={this.onInputValueChange}
