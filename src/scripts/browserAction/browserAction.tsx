@@ -8,10 +8,13 @@ import { configure } from "mobx";
 import { chromeService, bus, aggregateLogger, logger, trunk, extension } from "../common/common";
 import { UpdatesLoader } from "../lib/updates/UpdatesLoader";
 import { UpdatesStore } from "../lib/updates/UpdatesStore";
+import { initSentry } from "../common/sentry";
 
 const pageName = "BrowserAction";
 
 async function init() {
+    initSentry();
+
     const store = new BrowserActionStore(chromeService);
     const updates = new UpdatesStore();
 

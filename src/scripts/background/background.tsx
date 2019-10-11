@@ -19,11 +19,13 @@ import {
 } from "../common/logging";
 import { BackgroundChatNotificationsController } from "./controllers/BackgroundChatNotificationsController";
 import { ContentScriptController } from "../controllers/ContentScriptController";
+import { initSentry } from "../common/sentry";
 
 const pageName = "Background";
 
 async function init() {
     configure({ enforceActions: true });
+    initSentry();
     bus.listenForMessages();
     logUnhandledErrors(logger);
     storeExtensionMessagedLogs(logs, bus);

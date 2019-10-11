@@ -6,11 +6,14 @@ import { configure } from "mobx";
 import { Router } from "./components/Router";
 import * as common from "../common/common";
 import { addLiveReloadIfDevMode } from "../common/utils";
+import { initSentry } from "../common/sentry";
 
 const pageName = "Settings";
 
 async function init() {
     configure({ enforceActions: true });
+
+    initSentry();
 
     const background = await common.chromeService.getBackgroundPage<any>();
     common.bus.listenForMessages();

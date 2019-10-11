@@ -18,6 +18,7 @@ import { ChromePersistanceService } from "../lib/persistance/ChromePersistanceSe
 import { logger } from "../common/common";
 import { MembersService } from "./services/MembersService";
 import { ChatNotificationtsController } from "../controllers/ChatNotificationtsController";
+import { initSentry } from "../common/sentry";
 
 const pageName = "ContentScript";
 
@@ -28,6 +29,8 @@ async function init() {
         throw new Error(
             "Found and existing running instance of Chat for Trello, this shouldnt ever happen. Exiting."
         );
+
+    initSentry();
 
     configure({ enforceActions: true });
 

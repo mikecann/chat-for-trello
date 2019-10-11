@@ -1,9 +1,9 @@
-// `CheckerPlugin` is optional. Use it if you want async error reporting. 
-// We need this plugin to detect a `--watch` mode. It may be removed later 
-// after https://github.com/webpack/webpack/issues/3460 will be resolved. 
-const { CheckerPlugin } = require('awesome-typescript-loader')
-var webpack = require('webpack')
-var LiveReloadPlugin = require('webpack-livereload-plugin');
+// `CheckerPlugin` is optional. Use it if you want async error reporting.
+// We need this plugin to detect a `--watch` mode. It may be removed later
+// after https://github.com/webpack/webpack/issues/3460 will be resolved.
+const { CheckerPlugin } = require("awesome-typescript-loader");
+var webpack = require("webpack");
+var LiveReloadPlugin = require("webpack-livereload-plugin");
 
 const nodeEnv = process.env.NODE_ENV || "development";
 const isProd = nodeEnv == "production";
@@ -14,12 +14,12 @@ console.log("Webpack building extension.. ", { nodeEnv, isProd, baseUrl, parseUr
 
 const config = {
     entry: {
-        "background": './src/scripts/background/background.tsx',
-        "browseraction": './src/scripts/browserAction/browserAction.tsx',
-        "installed": './src/scripts/installed/installed.tsx',
-        "settingsPage": './src/scripts/settingsPage/settingsPage.tsx',
+        background: "./src/scripts/background/background.tsx",
+        browseraction: "./src/scripts/browserAction/browserAction.tsx",
+        installed: "./src/scripts/installed/installed.tsx",
+        settingsPage: "./src/scripts/settingsPage/settingsPage.tsx",
         // "installed": ['./src/installed/main'],
-        "contentScript": ['./src/scripts/contentScript/contentScript.tsx'],
+        contentScript: ["./src/scripts/contentScript/contentScript.tsx"]
         //vendor: ["react", "react-dom", "parse", "@blueprintjs/core",]
     },
     output: {
@@ -54,7 +54,7 @@ const config = {
         //     name: "vendor",
         // }),
         new webpack.DefinePlugin({
-            'process.env': {
+            "process.env": {
                 BASE_URL: JSON.stringify(baseUrl),
                 PARSE_URL: JSON.stringify(parseUrl),
                 NODE_ENV: JSON.stringify(nodeEnv)
@@ -67,4 +67,3 @@ const config = {
 //     config.plugins.push(new webpack.optimize.UglifyJsPlugin());
 
 module.exports = config;
-
