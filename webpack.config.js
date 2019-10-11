@@ -24,13 +24,14 @@ const config = {
     },
     output: {
         filename: "[name]-bundle.js",
-        path: __dirname + "/dist"
+        path: __dirname + "/dist",
+        sourceMapFilename: "[name].js.map"
     },
 
     mode: isProd ? "production" : "development",
 
     // Enable sourcemaps for debugging webpack's output.
-    devtool: isProd ? undefined : "source-map",
+    devtool: "source-map",
 
     resolve: {
         // Add '.ts' and '.tsx' as resolvable extensions.

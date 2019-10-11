@@ -8,6 +8,7 @@ import { AppSettings } from "../../../common/config";
 interface ChatPopupBodyProps {
     store: ChatStore;
     settings?: AppSettingsStore<AppSettings>;
+    height: number;
 }
 
 @inject("settings")
@@ -38,8 +39,9 @@ export class ChatWindowBody extends React.Component<ChatPopupBodyProps, {}> {
                 style={{
                     padding: 5,
                     background: "#edeff0",
-                    flex: 1,
-                    overflowY: "scroll"
+                    //flex: 1,
+                    overflowY: "scroll",
+                    height: this.props.height - 100
                 }}
             >
                 <ul>{actions.map(a => <ChatMessage key={a.id} action={a} />)}</ul>

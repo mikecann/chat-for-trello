@@ -42,7 +42,6 @@ export class ChatWindow extends React.Component<Props, {}> {
                         y: store.dimensions.y
                     }}
                     enableResizing={{
-                        bottom: false,
                         bottomLeft: !store.isMinimised,
                         bottomRight: !store.isMinimised,
                         left: !store.isMinimised,
@@ -72,7 +71,7 @@ export class ChatWindow extends React.Component<Props, {}> {
 
                         {store.isMinimised ? null : (
                             <React.Fragment>
-                                <ChatWindowBody store={store} />
+                                <ChatWindowBody store={store} height={store.dimensions.height} />
                                 <ChatWindowFooter onSubmitMessage={store.submitMessage} />
                             </React.Fragment>
                         )}

@@ -1,5 +1,10 @@
 ﻿[
     {
+        "version": "2.5",
+        "date": "11/10/2019",
+        "notes": "updatenotes/update-2.5.md"
+    },
+    {
         "version": "2.3",
         "date": "19/08/2018",
         "notes": "updatenotes/update-2.3.md"

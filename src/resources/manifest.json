@@ -4,7 +4,7 @@
     "manifest_version": 2,
     "name": "Chat For Trello",
     "description": "Adds chat functionality to Trello",
-    "version": "2.4.1",
+    "version": "2.5.0",
     "icons": {
         "16": "images/logo-16x16.png",
         "48": "images/logo-48x48.png",
