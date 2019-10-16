@@ -29,7 +29,6 @@ export class ConsoleLogger implements ILogger {
     }
 
     log(level: LogLevel, channel: string, ...rest: any[]) {
-        const color: any = levelColors[level];
-        console.log("%c" + level.toUpperCase(), color, `[${channel}]`, ...rest);
+        console.log(`${level.toUpperCase()} [${channel}]`, ...rest);
     }
 }

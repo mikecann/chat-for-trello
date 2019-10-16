@@ -14,7 +14,6 @@ import { WebRequestInterceptorHandler } from "../controllers/WebRequestIntercept
 import { ListsService } from "./services/ListsService";
 import { ChatService } from "./services/ChatService";
 import { StoresFactory } from "./helpers/StoresFactory";
-import { ChromePersistanceService } from "../lib/persistance/ChromePersistanceService";
 import { logger } from "../common/common";
 import { MembersService } from "./services/MembersService";
 import { ChatNotificationtsController } from "../controllers/ChatNotificationtsController";
@@ -25,10 +24,12 @@ const pageName = "ContentScript";
 async function init() {
     // Ensure we cant have two of us running at once
     const rootElementId = "tasks-for-trello-root";
-    if (document.getElementById(rootElementId))
-        throw new Error(
+    if (document.getElementById(rootElementId)) {
+        console.warn(
             "Found and existing running instance of Chat for Trello, this shouldnt ever happen. Exiting."
         );
+        return;
+    }
 
     initSentry();
 

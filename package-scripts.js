@@ -13,7 +13,7 @@ const staging = {};
 const manifest = require("./src/resources/manifest.json");
 const package = require("./package.json");
 const setEnv = () => `cross-env NODE_ENV=development`;
-const setProdEnv = () => `cross-env NODE_ENV=production`;
+const setProdEnv = () => `cross-env NODE_ENV=development`; // cross-env NODE_ENV=production
 const setLocalEnv = () => `cross-env NODE_ENV=development`;
 
 module.exports = {
